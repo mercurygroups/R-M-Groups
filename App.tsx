@@ -17,7 +17,7 @@ const App: React.FC = () => {
         <section id="home" className="relative h-[85vh] flex items-center overflow-hidden">
           <div className="absolute inset-0 z-0">
             <img 
-              src="https://images.unsplash.com/photo-1464037862335-6c65a52feb81?auto=format&fit=crop&q=80&w=2000" 
+              src="/images/hero-travel.svg" 
               alt="Travel Hero" 
               className="w-full h-full object-cover"
             />
@@ -136,7 +136,7 @@ const App: React.FC = () => {
               <div className="lg:w-1/2 relative">
                 <div className="relative z-10 rounded-3xl overflow-hidden shadow-2xl rotate-3 hover:rotate-0 transition-transform duration-500">
                   <img 
-                    src="https://images.unsplash.com/photo-1497215728101-856f4ea42174?auto=format&fit=crop&q=80&w=1000" 
+                    src="/images/corporate-office.svg" 
                     alt="Corporate" 
                     className="w-full h-auto"
                   />
@@ -154,8 +154,8 @@ const App: React.FC = () => {
             <div className="flex flex-col lg:flex-row items-center gap-16">
               <div className="lg:w-1/2">
                 <div className="grid grid-cols-2 gap-4">
-                  <img src="https://images.unsplash.com/photo-1577412647305-991150c7d163?auto=format&fit=crop&q=80&w=400" className="rounded-2xl shadow-md h-64 object-cover" alt="Team" />
-                  <img src="https://images.unsplash.com/photo-1488590528505-98d2b5aba04b?auto=format&fit=crop&q=80&w=400" className="rounded-2xl shadow-md h-64 object-cover mt-12" alt="Office" />
+                  <img src="/images/team-office.svg" className="rounded-2xl shadow-md h-64 object-cover" alt="Team" />
+                  <img src="/images/tech-workspace.svg" className="rounded-2xl shadow-md h-64 object-cover mt-12" alt="Office" />
                 </div>
               </div>
               <div className="lg:w-1/2">

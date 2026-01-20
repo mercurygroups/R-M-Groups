@@ -9,7 +9,7 @@ export const SERVICES: Service[] = [
     title: 'Flight Bookings',
     description: 'Seamless processing of domestic and international flight tickets with competitive pricing and 24/7 support.',
     icon: 'Plane',
-    image: 'https://images.unsplash.com/photo-1436491865332-7a61a109c0f3?auto=format&fit=crop&q=80&w=800',
+    image: '/images/flight-booking.svg',
     type: ServiceType.FLIGHTS
   },
   {
@@ -17,7 +17,7 @@ export const SERVICES: Service[] = [
     title: 'Passport Processing',
     description: 'Expert guidance and assistance through the Nigerian passport application and renewal process.',
     icon: 'Passport',
-    image: 'https://images.unsplash.com/photo-1544027993-37dbfe43562a?auto=format&fit=crop&q=80&w=800',
+    image: '/images/passport-processing.svg',
     type: ServiceType.PASSPORT
   },
   {
@@ -25,7 +25,7 @@ export const SERVICES: Service[] = [
     title: 'Travel Insurance',
     description: 'Comprehensive travel insurance policies to protect you against unforeseen events during your journeys.',
     icon: 'ShieldCheck',
-    image: 'https://images.unsplash.com/photo-1454165833767-027ff33027ef?auto=format&fit=crop&q=80&w=800',
+    image: '/images/travel-insurance.svg',
     type: ServiceType.INSURANCE
   },
   {
@@ -33,7 +33,7 @@ export const SERVICES: Service[] = [
     title: 'Visa Assistance',
     description: 'Specialized visa processing for tours, conferences, and business travel worldwide.',
     icon: 'FileText',
-    image: 'https://images.unsplash.com/photo-1554224155-1696413565d3?auto=format&fit=crop&q=80&w=800',
+    image: '/images/visa-assistance.svg',
     type: ServiceType.VISA
   },
   {
@@ -41,7 +41,7 @@ export const SERVICES: Service[] = [
     title: 'Private Jet Rental',
     description: 'Elite private jet charter services for high-profile business or leisure travel across Africa and beyond.',
     icon: 'Plane',
-    image: 'https://images.unsplash.com/photo-1540962351504-03099e0a754b?auto=format&fit=crop&q=80&w=800',
+    image: '/images/private-jet.svg',
     type: ServiceType.JET_RENTAL
   },
   {
@@ -49,7 +49,7 @@ export const SERVICES: Service[] = [
     title: 'Luxury Vehicle Rental',
     description: 'Interstate rental of premium cars and luxury buses across Nigeria for group tours or corporate events.',
     icon: 'Car',
-    image: 'https://images.unsplash.com/photo-1549317661-bd32c8ce0db2?auto=format&fit=crop&q=80&w=800',
+    image: '/images/luxury-car.svg',
     type: ServiceType.LUXURY_CAR
   },
   {
@@ -57,7 +57,7 @@ export const SERVICES: Service[] = [
     title: 'Urban Logistics',
     description: 'Swift delivery bike services for goods in Lagos, Port Harcourt, and Abuja. Reliable and efficient.',
     icon: 'Bike',
-    image: 'https://images.unsplash.com/photo-1558981403-c5f97dbbe480?auto=format&fit=crop&q=80&w=800',
+    image: '/images/urban-delivery.svg',
     type: ServiceType.DELIVERY
   }
 ];

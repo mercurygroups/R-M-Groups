@@ -1,0 +1,47 @@
+<svg width="400" height="300" viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background -->
+  <rect width="400" height="300" fill="#EFF6FF"/>
+  
+  <!-- Shield -->
+  <g transform="translate(200,150)">
+    <path d="M0,-80 L-40,-40 L-40,20 Q-40,60 0,80 Q40,60 40,20 L40,-40 Z" fill="#3B82F6"/>
+    <path d="M0,-70 L-30,-35 L-30,15 Q-30,50 0,65 Q30,50 30,15 L30,-35 Z" fill="#1E40AF"/>
+    
+    <!-- Checkmark -->
+    <path d="M-15,0 L-5,10 L15,-10" stroke="white" stroke-width="4" fill="none" stroke-linecap="round"/>
+  </g>
+  
+  <!-- Insurance document -->
+  <g transform="translate(80,50)">
+    <rect x="0" y="0" width="100" height="130" fill="white" stroke="#D1D5DB"/>
+    <rect x="5" y="5" width="90" height="15" fill="#3B82F6"/>
+    <text x="50" y="15" text-anchor="middle" fill="white" font-family="Arial" font-size="8" font-weight="bold">TRAVEL INSURANCE</text>
+    
+    <rect x="10" y="30" width="80" height="2" fill="#6B7280"/>
+    <rect x="10" y="37" width="60" height="2" fill="#6B7280"/>
+    <rect x="10" y="44" width="70" height="2" fill="#6B7280"/>
+    <rect x="10" y="51" width="50" height="2" fill="#6B7280"/>
+    
+    <rect x="10" y="65" width="35" height="2" fill="#10B981"/>
+    <rect x="10" y="72" width="40" height="2" fill="#10B981"/>
+    <rect x="10" y="79" width="30" height="2" fill="#10B981"/>
+    
+    <rect x="10" y="95" width="80" height="15" fill="#F3F4F6"/>
+    <text x="50" y="105" text-anchor="middle" fill="#374151" font-family="Arial" font-size="6">COVERAGE: $100,000</text>
+  </g>
+  
+  <!-- Medical cross -->
+  <g transform="translate(320,80)">
+    <rect x="-15" y="-5" width="30" height="10" fill="#EF4444"/>
+    <rect x="-5" y="-15" width="10" height="30" fill="#EF4444"/>
+    <circle cx="0" cy="0" r="20" fill="none" stroke="#EF4444" stroke-width="2"/>
+  </g>
+  
+  <!-- Airplane icon -->
+  <g transform="translate(320,200)">
+    <ellipse cx="0" cy="0" rx="25" ry="5" fill="#6B7280"/>
+    <ellipse cx="-8" cy="-2" rx="8" ry="3" fill="#4B5563"/>
+    <ellipse cx="10" cy="-1" rx="5" ry="2" fill="#4B5563"/>
+    <ellipse cx="12" cy="1" rx="5" ry="2" fill="#4B5563"/>
+  </g>
+</svg>

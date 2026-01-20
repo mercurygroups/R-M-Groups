@@ -1,0 +1,58 @@
+<svg width="400" height="300" viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background -->
+  <rect width="400" height="300" fill="#F9FAFB"/>
+  
+  <!-- Visa document -->
+  <g transform="translate(100,50)">
+    <rect x="0" y="0" width="200" height="150" fill="white" stroke="#D1D5DB" stroke-width="2"/>
+    <rect x="10" y="10" width="180" height="25" fill="#1E40AF"/>
+    <text x="100" y="27" text-anchor="middle" fill="white" font-family="Arial" font-size="12" font-weight="bold">VISA</text>
+    
+    <!-- Photo placeholder -->
+    <rect x="20" y="50" width="40" height="50" fill="#E5E7EB"/>
+    <circle cx="40" cy="65" r="8" fill="#9CA3AF"/>
+    <rect x="32" y="73" width="16" height="20" fill="#9CA3AF"/>
+    
+    <!-- Visa details -->
+    <rect x="70" y="55" width="100" height="3" fill="#374151"/>
+    <rect x="70" y="63" width="80" height="2" fill="#6B7280"/>
+    <rect x="70" y="70" width="90" height="2" fill="#6B7280"/>
+    <rect x="70" y="77" width="70" height="2" fill="#6B7280"/>
+    <rect x="70" y="84" width="85" height="2" fill="#6B7280"/>
+    <rect x="70" y="91" width="60" height="2" fill="#6B7280"/>
+    
+    <!-- Stamp -->
+    <circle cx="250" cy="80" r="30" fill="none" stroke="#10B981" stroke-width="3"/>
+    <text x="250" y="75" text-anchor="middle" fill="#10B981" font-family="Arial" font-size="8" font-weight="bold">APPROVED</text>
+    <text x="250" y="88" text-anchor="middle" fill="#10B981" font-family="Arial" font-size="6">JAN 2024</text>
+    
+    <!-- Barcode -->
+    <g transform="translate(20,120)">
+      <rect x="0" y="0" width="2" height="15" fill="#000"/>
+      <rect x="4" y="0" width="1" height="15" fill="#000"/>
+      <rect x="7" y="0" width="3" height="15" fill="#000"/>
+      <rect x="12" y="0" width="1" height="15" fill="#000"/>
+      <rect x="15" y="0" width="2" height="15" fill="#000"/>
+      <rect x="19" y="0" width="1" height="15" fill="#000"/>
+      <rect x="22" y="0" width="2" height="15" fill="#000"/>
+      <rect x="26" y="0" width="1" height="15" fill="#000"/>
+      <rect x="29" y="0" width="3" height="15" fill="#000"/>
+    </g>
+  </g>
+  
+  <!-- Globe -->
+  <g transform="translate(50,200)">
+    <circle cx="0" cy="0" r="25" fill="#3B82F6"/>
+    <path d="M-20,-10 Q0,-15 20,-10 Q15,0 20,10 Q0,15 -20,10 Q-15,0 -20,-10" fill="#1E40AF"/>
+    <ellipse cx="0" cy="0" rx="25" ry="8" fill="none" stroke="#1E40AF" stroke-width="2"/>
+    <line x1="0" y1="-25" x2="0" y2="25" stroke="#1E40AF" stroke-width="2"/>
+  </g>
+  
+  <!-- Flags -->
+  <g transform="translate(320,180)">
+    <rect x="0" y="0" width="30" height="20" fill="#EF4444"/>
+    <rect x="0" y="7" width="30" height="6" fill="white"/>
+    <rect x="0" y="0" width="10" height="20" fill="#1E40AF"/>
+    <rect x="-2" y="-10" width="2" height="40" fill="#6B7280"/>
+  </g>
+</svg>
