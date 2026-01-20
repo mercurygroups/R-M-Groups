@@ -4,8 +4,8 @@ import Navbar from './components/Navbar';
 import ServiceCard from './components/ServiceCard';
 import ContactForm from './components/ContactForm';
 import ChatBot from './components/ChatBot';
-import { SERVICES, COMPANY_DETAILS, FLEET_IMAGES } from './constants';
-import { Mail, Phone, MapPin, CheckCircle2, Globe, Shield, Zap, Star, Car, Fuel, ShieldAlert, Award, Diamond, Crown, Coffee, Heart, Music, Briefcase } from 'lucide-react';
+import { SERVICES, COMPANY_DETAILS } from './constants';
+import { Mail, Phone, MapPin, CheckCircle2, Globe, Shield, Zap } from 'lucide-react';
 
 const App: React.FC = () => {
   return (
@@ -57,8 +57,8 @@ const App: React.FC = () => {
         <section className="py-16 bg-white border-b border-gray-100">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-              <div className="flex items-center space-x-4 p-6 rounded-2xl bg-blue-50/50 border border-blue-100/50 transition-all hover:bg-blue-50">
-                <div className="bg-blue-600 p-3 rounded-xl text-white shadow-lg">
+              <div className="flex items-center space-x-4 p-6 rounded-2xl bg-blue-50/50">
+                <div className="bg-blue-600 p-3 rounded-xl text-white">
                   <Globe size={24} />
                 </div>
                 <div>
@@ -66,8 +66,8 @@ const App: React.FC = () => {
                   <p className="text-sm text-gray-600">Travel anywhere across the globe with ease.</p>
                 </div>
               </div>
-              <div className="flex items-center space-x-4 p-6 rounded-2xl bg-indigo-50/50 border border-indigo-100/50 transition-all hover:bg-indigo-50">
-                <div className="bg-indigo-600 p-3 rounded-xl text-white shadow-lg">
+              <div className="flex items-center space-x-4 p-6 rounded-2xl bg-indigo-50/50">
+                <div className="bg-indigo-600 p-3 rounded-xl text-white">
                   <Shield size={24} />
                 </div>
                 <div>
@@ -75,8 +75,8 @@ const App: React.FC = () => {
                   <p className="text-sm text-gray-600">Insurance policies for ultimate peace of mind.</p>
                 </div>
               </div>
-              <div className="flex items-center space-x-4 p-6 rounded-2xl bg-purple-50/50 border border-purple-100/50 transition-all hover:bg-purple-50">
-                <div className="bg-purple-600 p-3 rounded-xl text-white shadow-lg">
+              <div className="flex items-center space-x-4 p-6 rounded-2xl bg-purple-50/50">
+                <div className="bg-purple-600 p-3 rounded-xl text-white">
                   <Zap size={24} />
                 </div>
                 <div>
@@ -102,192 +102,6 @@ const App: React.FC = () => {
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
               {SERVICES.map((service) => (
                 <ServiceCard key={service.id} service={service} />
-              ))}
-            </div>
-          </div>
-        </section>
-
-        {/* Specialized Event Packages - New Section */}
-        <section className="py-24 bg-blue-50">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center mb-16">
-            <h2 className="text-4xl font-bold text-gray-900 mb-4">Luxury for Every Occasion</h2>
-            <p className="text-gray-600 text-lg max-w-2xl mx-auto">We don't just rent cars; we provide the atmosphere for your most important moments.</p>
-          </div>
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-              <div className="bg-white p-10 rounded-3xl shadow-xl hover:-translate-y-2 transition-transform duration-300">
-                <Heart className="text-red-500 mb-6" size={40} />
-                <h4 className="text-2xl font-bold mb-4">Elite Weddings</h4>
-                <p className="text-gray-600 text-sm leading-relaxed mb-6">Arrive in the ultimate status symbol with our Rolls Royce or Bentley fleet. Includes ribbons, champagne, and professional chauffeur.</p>
-                <div className="h-px bg-gray-100 mb-6"></div>
-                <button onClick={() => document.getElementById('contact')?.scrollIntoView({behavior:'smooth'})} className="text-blue-600 font-bold text-sm">Wedding Inquiry →</button>
-              </div>
-              <div className="bg-white p-10 rounded-3xl shadow-xl hover:-translate-y-2 transition-transform duration-300">
-                <Briefcase className="text-blue-600 mb-6" size={40} />
-                <h4 className="text-2xl font-bold mb-4">Corporate VIP</h4>
-                <p className="text-gray-600 text-sm leading-relaxed mb-6">Impress stakeholders and ensure executive comfort with our Mercedes S-Class and Range Rover series. Professional and discrete.</p>
-                <div className="h-px bg-gray-100 mb-6"></div>
-                <button onClick={() => document.getElementById('contact')?.scrollIntoView({behavior:'smooth'})} className="text-blue-600 font-bold text-sm">Corporate Portal →</button>
-              </div>
-              <div className="bg-white p-10 rounded-3xl shadow-xl hover:-translate-y-2 transition-transform duration-300">
-                <Music className="text-purple-600 mb-6" size={40} />
-                <h4 className="text-2xl font-bold mb-4">Nightlife & Gigs</h4>
-                <p className="text-gray-600 text-sm leading-relaxed mb-6">Stand out with a G-Wagon or Stretched Limo for video shoots, celebrity arrivals, or high-profile social events.</p>
-                <div className="h-px bg-gray-100 mb-6"></div>
-                <button onClick={() => document.getElementById('contact')?.scrollIntoView({behavior:'smooth'})} className="text-blue-600 font-bold text-sm">Book Artist Transit →</button>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        {/* VIP Concierge Section */}
-        <section className="py-24 bg-gray-900 text-white relative overflow-hidden">
-          <div className="absolute top-0 right-0 w-1/3 h-full opacity-10 pointer-events-none">
-             <Diamond size={500} className="text-blue-400 absolute -right-40 top-20" />
-          </div>
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-            <div className="flex flex-col lg:flex-row items-center gap-16">
-              <div className="lg:w-1/2">
-                <span className="text-blue-400 font-bold uppercase tracking-widest text-sm mb-4 block">Redefining Luxury</span>
-                <h2 className="text-5xl font-bold mb-8 leading-tight">Beyond Transportation: <br /><span className="text-blue-400">The VIP Concierge</span></h2>
-                <p className="text-gray-400 text-lg leading-relaxed mb-10">
-                  R&M Groups doesn't just provide a car; we provide a sanctuary. Our VIP rentals come with integrated concierge services to manage your schedule, security, and comfort while you navigate Nigeria.
-                </p>
-                
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-8">
-                  <div className="flex items-start space-x-4">
-                    <div className="bg-blue-600/20 p-3 rounded-2xl border border-blue-500/30">
-                      <ShieldAlert className="text-blue-400" size={24} />
-                    </div>
-                    <div>
-                      <h4 className="font-bold mb-2">Discrete Security</h4>
-                      <p className="text-sm text-gray-500">Professional armed or unarmed security details available for transit.</p>
-                    </div>
-                  </div>
-                  <div className="flex items-start space-x-4">
-                    <div className="bg-blue-600/20 p-3 rounded-2xl border border-blue-500/30">
-                      <Crown className="text-blue-400" size={24} />
-                    </div>
-                    <div>
-                      <h4 className="font-bold mb-2">Executive Protocol</h4>
-                      <p className="text-sm text-gray-500">VIP airport pick-up and drop-off with fast-track immigration assistance.</p>
-                    </div>
-                  </div>
-                  <div className="flex items-start space-x-4">
-                    <div className="bg-blue-600/20 p-3 rounded-2xl border border-blue-500/30">
-                      <Coffee className="text-blue-400" size={24} />
-                    </div>
-                    <div>
-                      <h4 className="font-bold mb-2">On-Board Amenity</h4>
-                      <p className="text-sm text-gray-500">Refreshments, high-speed WiFi, and daily newspapers in every vehicle.</p>
-                    </div>
-                  </div>
-                  <div className="flex items-start space-x-4">
-                    <div className="bg-blue-600/20 p-3 rounded-2xl border border-blue-500/30">
-                      <Star className="text-blue-400" size={24} />
-                    </div>
-                    <div>
-                      <h4 className="font-bold mb-2">24/7 Dedicated Line</h4>
-                      <p className="text-sm text-gray-500">Your personal travel manager is just one call away for any itinerary changes.</p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div className="lg:w-1/2">
-                <div className="relative">
-                  <img 
-                    src="https://images.unsplash.com/photo-1549317661-bd32c8ce0db2?auto=format&fit=crop&q=80&w=1200" 
-                    className="rounded-[3rem] shadow-2xl relative z-10 border border-white/10" 
-                    alt="Luxury Interior" 
-                  />
-                  <div className="absolute -inset-4 bg-blue-600/20 rounded-[3.5rem] blur-2xl z-0"></div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        {/* Fleet Showcase Section */}
-        <section className="py-24 bg-white overflow-hidden">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="flex flex-col md:flex-row justify-between items-end mb-16 gap-6">
-              <div className="max-w-2xl">
-                <span className="text-blue-600 font-bold uppercase tracking-widest text-sm mb-4 block">Elite Fleet & VIP Travel</span>
-                <h2 className="text-5xl font-extrabold text-gray-900 mb-6 tracking-tight">Prestigious Transportation</h2>
-                <p className="text-gray-600 text-lg leading-relaxed">
-                  Our exclusive collection represents the pinnacle of luxury mobility in Nigeria. Whether for high-profile business meetings, group travel, or interstate logistics, we provide meticulously maintained vehicles and professional chauffeurs.
-                </p>
-                <div className="flex flex-wrap gap-4 mt-8">
-                  <div className="flex items-center space-x-2 text-sm text-gray-500 bg-gray-100 px-4 py-2 rounded-full">
-                    <ShieldAlert size={16} className="text-blue-600" />
-                    <span>Armored Options Available</span>
-                  </div>
-                  <div className="flex items-center space-x-2 text-sm text-gray-500 bg-gray-100 px-4 py-2 rounded-full">
-                    <Fuel size={16} className="text-blue-600" />
-                    <span>Full Tank Service</span>
-                  </div>
-                  <div className="flex items-center space-x-2 text-sm text-gray-500 bg-gray-100 px-4 py-2 rounded-full">
-                    <Award size={16} className="text-blue-600" />
-                    <span>Certified Chauffeurs</span>
-                  </div>
-                </div>
-              </div>
-              <div className="flex-shrink-0">
-                <button 
-                  onClick={() => document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' })}
-                  className="bg-blue-600 text-white px-10 py-4 rounded-full font-bold hover:bg-blue-700 transition-all flex items-center space-x-3 shadow-xl hover:shadow-2xl active:scale-95"
-                >
-                  <Star size={20} className="fill-current" />
-                  <span>Request Fleet Catalog</span>
-                </button>
-              </div>
-            </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
-              {FLEET_IMAGES.map((item, idx) => (
-                <div key={idx} className="group relative bg-white rounded-[2.5rem] overflow-hidden shadow-sm hover:shadow-2xl transition-all duration-500 border border-gray-100">
-                  <div className="aspect-[4/3] w-full overflow-hidden relative">
-                    <img 
-                      src={item.url} 
-                      alt={item.name} 
-                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-1000"
-                    />
-                    <div className="absolute top-6 right-6">
-                      <div className="bg-white/90 backdrop-blur-md px-4 py-1.5 rounded-full text-[10px] font-bold text-gray-900 uppercase tracking-widest border border-white/20">
-                        {item.category}
-                      </div>
-                    </div>
-                  </div>
-                  
-                  <div className="p-8">
-                    <div className="flex justify-between items-start mb-6">
-                      <div>
-                        <h4 className="text-2xl font-bold text-gray-900 mb-1">{item.name}</h4>
-                        <p className="text-blue-600 text-xs font-semibold uppercase tracking-widest">{item.category}</p>
-                      </div>
-                      <div className="bg-blue-50 p-2.5 rounded-2xl text-blue-600">
-                        <Car size={22} />
-                      </div>
-                    </div>
-                    
-                    <ul className="space-y-3 mb-8">
-                      {item.features.map((feature, fIdx) => (
-                        <li key={fIdx} className="flex items-center text-sm text-gray-500">
-                          <CheckCircle2 size={16} className="text-blue-500 mr-2.5 flex-shrink-0" />
-                          {feature}
-                        </li>
-                      ))}
-                    </ul>
-                    
-                    <button 
-                      onClick={() => document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' })}
-                      className="w-full bg-gray-50 hover:bg-blue-600 hover:text-white text-gray-900 font-bold py-4 rounded-2xl transition-all border border-gray-100 flex items-center justify-center space-x-2 text-sm"
-                    >
-                      <span>Book for Interstate</span>
-                      <Zap size={14} className="fill-current" />
-                    </button>
-                  </div>
-                </div>
               ))}
             </div>
           </div>
@@ -340,8 +154,8 @@ const App: React.FC = () => {
             <div className="flex flex-col lg:flex-row items-center gap-16">
               <div className="lg:w-1/2">
                 <div className="grid grid-cols-2 gap-4">
-                  <img src="https://images.unsplash.com/photo-1577412647305-991150c7d163?auto=format&fit=crop&q=80&w=400" className="rounded-2xl shadow-md h-64 object-cover transition-all hover:scale-105 duration-500" alt="Team" />
-                  <img src="https://images.unsplash.com/photo-1488590528505-98d2b5aba04b?auto=format&fit=crop&q=80&w=400" className="rounded-2xl shadow-md h-64 object-cover mt-12 transition-all hover:scale-105 duration-500" alt="Office" />
+                  <img src="https://images.unsplash.com/photo-1577412647305-991150c7d163?auto=format&fit=crop&q=80&w=400" className="rounded-2xl shadow-md h-64 object-cover" alt="Team" />
+                  <img src="https://images.unsplash.com/photo-1488590528505-98d2b5aba04b?auto=format&fit=crop&q=80&w=400" className="rounded-2xl shadow-md h-64 object-cover mt-12" alt="Office" />
                 </div>
               </div>
               <div className="lg:w-1/2">
@@ -413,10 +227,6 @@ const App: React.FC = () => {
                 </div>
 
                 <div className="mt-12 p-6 bg-blue-600 rounded-2xl text-white">
-                  <h4 className="font-bold mb-2 text-lg">Direct Line</h4>
-                  <p className="text-sm text-blue-100 mb-1">Available for quick calls:</p>
-                  <p className="text-xl font-bold mb-4">{COMPANY_DETAILS.phone}</p>
-                  <div className="h-px bg-white/20 mb-4"></div>
                   <h4 className="font-bold mb-2">Office Hours</h4>
                   <p className="text-sm text-blue-100">Monday - Friday: 8:00 AM - 6:00 PM</p>
                   <p className="text-sm text-blue-100">Saturday: 10:00 AM - 4:00 PM</p>
@@ -442,6 +252,9 @@ const App: React.FC = () => {
               <p className="text-gray-400 max-w-sm mb-6">
                 Redefining travel and logistics in Nigeria and beyond. Quality service you can trust 24/7.
               </p>
+              <div className="flex space-x-4">
+                {/* Social icons could go here */}
+              </div>
             </div>
             
             <div>
