@@ -47,7 +47,7 @@ const DetailedServicesSection: React.FC = () => {
         'Frequent flyer program optimization',
         'Travel insurance integration'
       ],
-      pricing: 'From ₦15,000 service fee',
+      pricing: 'From ₦350,000 service fee',
       duration: '2-24 hours processing',
       locations: ['Lagos', 'Abuja', 'Port Harcourt', 'Kano'],
       image: '/images/flight-booking.svg',
@@ -68,7 +68,7 @@ const DetailedServicesSection: React.FC = () => {
         'Multiple entry visa expertise',
         'Visa renewal and extension services'
       ],
-      pricing: 'From ₦25,000 + embassy fees',
+      pricing: 'From ₦450,000 + embassy fees',
       duration: '5-21 business days',
       locations: ['Lagos', 'Abuja'],
       image: '/images/visa-assistance.svg',
@@ -89,7 +89,7 @@ const DetailedServicesSection: React.FC = () => {
         'GPS tracking and 24/7 support',
         'Flexible rental periods'
       ],
-      pricing: 'From ₦35,000/day',
+      pricing: 'From ₦500,000/day',
       duration: 'Instant booking available',
       locations: ['Lagos', 'Abuja', 'Port Harcourt'],
       image: '/images/luxury-car.svg',
@@ -110,7 +110,7 @@ const DetailedServicesSection: React.FC = () => {
         'Group charter for up to 19 passengers',
         'Concierge services at destination'
       ],
-      pricing: 'From ₦2,500,000/flight',
+      pricing: 'From ₦15,000,000/flight',
       duration: '4-48 hours notice',
       locations: ['Lagos', 'Abuja', 'Port Harcourt'],
       image: '/images/private-jet.svg',
@@ -131,7 +131,7 @@ const DetailedServicesSection: React.FC = () => {
         'Passport photo services',
         'Delivery to your location'
       ],
-      pricing: 'From ₦20,000 + government fees',
+      pricing: 'From ₦400,000 + government fees',
       duration: '3-14 business days',
       locations: ['Lagos', 'Abuja', 'Port Harcourt'],
       image: '/images/passport-processing.svg',
@@ -152,7 +152,7 @@ const DetailedServicesSection: React.FC = () => {
         'Last-mile delivery solutions',
         'Corporate logistics partnerships'
       ],
-      pricing: 'From ₦2,500/delivery',
+      pricing: 'From ₦350,000/delivery',
       duration: '2-24 hours delivery',
       locations: ['Lagos', 'Abuja', 'Port Harcourt', 'Ibadan'],
       image: '/images/urban-delivery.svg',

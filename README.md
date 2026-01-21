@@ -62,7 +62,6 @@ R&M Groups is Nigeria's premier travel and logistics company, offering comprehen
 
 ### Enhanced Sections
 - **Detailed Services**: In-depth service exploration
-- **Testimonials**: Customer reviews with carousel
 - **Partners**: Industry partnerships and certifications
 - **News**: Latest updates and company news
 - **FAQ**: Comprehensive question and answer section
