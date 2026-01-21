@@ -1,10 +1,19 @@
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Menu, X, Phone, MessageSquare } from 'lucide-react';
 import { COMPANY_DETAILS } from '../constants';
 
 const Navbar: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 50);
+    };
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
   const scrollTo = (id: string) => {
     const element = document.getElementById(id);
@@ -15,32 +24,85 @@ const Navbar: React.FC = () => {
   };
 
   return (
-    <nav className="fixed w-full z-50 glass border-b border-gray-200">
+    <nav className={`fixed w-full z-50 transition-all duration-300 ${
+      isScrolled 
+        ? 'bg-white/95 backdrop-blur-md shadow-lg border-b border-slate-200/50' 
+        : 'bg-white/10 backdrop-blur-md border-b border-white/10'
+    }`}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between h-20 items-center">
           <div className="flex-shrink-0 flex items-center">
-            <span className="text-2xl font-bold bg-gradient-to-r from-blue-700 to-indigo-600 bg-clip-text text-transparent cursor-pointer" onClick={() => scrollTo('home')}>
-              {COMPANY_DETAILS.name}
-            </span>
+            <button 
+              onClick={() => scrollTo('home')}
+              className="group flex items-center space-x-3"
+            >
+              <div className="w-10 h-10 bg-gradient-to-br from-blue-600 to-indigo-600 rounded-2xl flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
+                <span className="text-white font-black text-lg">R&M</span>
+              </div>
+              <span className={`text-2xl font-black transition-colors duration-300 ${
+                isScrolled 
+                  ? 'bg-gradient-to-r from-blue-700 to-indigo-600 bg-clip-text text-transparent' 
+                  : 'text-white'
+              }`}>
+                {COMPANY_DETAILS.name}
+              </span>
+            </button>
           </div>
           
           <div className="hidden md:flex items-center space-x-8">
-            <button onClick={() => scrollTo('services')} className="text-gray-600 hover:text-blue-700 font-medium transition-colors">Services</button>
-            <button onClick={() => scrollTo('about')} className="text-gray-600 hover:text-blue-700 font-medium transition-colors">About</button>
-            <button onClick={() => scrollTo('contact')} className="text-gray-600 hover:text-blue-700 font-medium transition-colors">Contact</button>
+            <button 
+              onClick={() => scrollTo('services')} 
+              className={`font-semibold transition-all duration-300 hover:scale-105 ${
+                isScrolled 
+                  ? 'text-slate-700 hover:text-blue-600' 
+                  : 'text-white/90 hover:text-white'
+              }`}
+            >
+              Services
+            </button>
+            <button 
+              onClick={() => scrollTo('about')} 
+              className={`font-semibold transition-all duration-300 hover:scale-105 ${
+                isScrolled 
+                  ? 'text-slate-700 hover:text-blue-600' 
+                  : 'text-white/90 hover:text-white'
+              }`}
+            >
+              About
+            </button>
+            <button 
+              onClick={() => scrollTo('contact')} 
+              className={`font-semibold transition-all duration-300 hover:scale-105 ${
+                isScrolled 
+                  ? 'text-slate-700 hover:text-blue-600' 
+                  : 'text-white/90 hover:text-white'
+              }`}
+            >
+              Contact
+            </button>
+            
+            <div className="w-px h-6 bg-slate-300/50"></div>
+            
             <a 
               href={`https://wa.me/${COMPANY_DETAILS.whatsapp}`}
               target="_blank"
               rel="noopener noreferrer"
-              className="bg-blue-600 text-white px-5 py-2.5 rounded-full flex items-center space-x-2 hover:bg-blue-700 transition-all shadow-md active:scale-95"
+              className="group bg-gradient-to-r from-green-600 to-green-700 text-white px-6 py-3 rounded-2xl flex items-center space-x-2 hover:from-green-700 hover:to-green-800 transition-all duration-300 shadow-lg hover:shadow-green-500/25 active:scale-95"
             >
-              <MessageSquare size={18} />
-              <span>WhatsApp</span>
+              <MessageSquare size={18} className="group-hover:scale-110 transition-transform duration-300" />
+              <span className="font-semibold">WhatsApp</span>
             </a>
           </div>
 
           <div className="md:hidden flex items-center">
-            <button onClick={() => setIsOpen(!isOpen)} className="text-gray-600 focus:outline-none p-2">
+            <button 
+              onClick={() => setIsOpen(!isOpen)} 
+              className={`p-2 rounded-2xl transition-all duration-300 ${
+                isScrolled 
+                  ? 'text-slate-700 hover:bg-slate-100' 
+                  : 'text-white hover:bg-white/10'
+              }`}
+            >
               {isOpen ? <X size={28} /> : <Menu size={28} />}
             </button>
           </div>
@@ -49,15 +111,45 @@ const Navbar: React.FC = () => {
 
       {/* Mobile Menu */}
       {isOpen && (
-        <div className="md:hidden glass border-t border-gray-200 py-4 animate-in slide-in-from-top duration-300">
-          <div className="flex flex-col space-y-4 px-4">
-            <button onClick={() => scrollTo('services')} className="text-left text-lg py-2 border-b border-gray-100">Services</button>
-            <button onClick={() => scrollTo('about')} className="text-left text-lg py-2 border-b border-gray-100">About</button>
-            <button onClick={() => scrollTo('contact')} className="text-left text-lg py-2 border-b border-gray-100">Contact</button>
-            <a href={`tel:${COMPANY_DETAILS.phone}`} className="flex items-center space-x-3 text-blue-600 py-2">
-              <Phone size={20} />
-              <span>Call Us Now</span>
-            </a>
+        <div className="md:hidden bg-white/95 backdrop-blur-md border-t border-slate-200/50 animate-in slide-in-from-top duration-300">
+          <div className="px-4 py-6 space-y-4">
+            <button 
+              onClick={() => scrollTo('services')} 
+              className="block w-full text-left text-lg py-3 px-4 rounded-2xl text-slate-700 hover:bg-blue-50 hover:text-blue-600 transition-all duration-300 font-semibold"
+            >
+              Services
+            </button>
+            <button 
+              onClick={() => scrollTo('about')} 
+              className="block w-full text-left text-lg py-3 px-4 rounded-2xl text-slate-700 hover:bg-blue-50 hover:text-blue-600 transition-all duration-300 font-semibold"
+            >
+              About
+            </button>
+            <button 
+              onClick={() => scrollTo('contact')} 
+              className="block w-full text-left text-lg py-3 px-4 rounded-2xl text-slate-700 hover:bg-blue-50 hover:text-blue-600 transition-all duration-300 font-semibold"
+            >
+              Contact
+            </button>
+            
+            <div className="pt-4 border-t border-slate-200">
+              <a 
+                href={`tel:${COMPANY_DETAILS.phone}`} 
+                className="flex items-center space-x-3 text-blue-600 py-3 px-4 rounded-2xl hover:bg-blue-50 transition-all duration-300"
+              >
+                <Phone size={20} />
+                <span className="font-semibold">Call Us Now</span>
+              </a>
+              <a 
+                href={`https://wa.me/${COMPANY_DETAILS.whatsapp}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center space-x-3 text-green-600 py-3 px-4 rounded-2xl hover:bg-green-50 transition-all duration-300 mt-2"
+              >
+                <MessageSquare size={20} />
+                <span className="font-semibold">WhatsApp</span>
+              </a>
+            </div>
           </div>
         </div>
       )}

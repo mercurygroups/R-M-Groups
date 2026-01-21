@@ -5,7 +5,8 @@ import ServiceCard from './components/ServiceCard';
 import ContactForm from './components/ContactForm';
 import ChatBot from './components/ChatBot';
 import { SERVICES, COMPANY_DETAILS } from './constants';
-import { Mail, Phone, MapPin, CheckCircle2, Globe, Shield, Zap } from 'lucide-react';
+import { Mail, Phone, MapPin, CheckCircle2, Globe, Shield, Zap, ExternalLink } from 'lucide-react';
+import * as Icons from 'lucide-react';
 
 const App: React.FC = () => {
   return (
@@ -14,74 +15,124 @@ const App: React.FC = () => {
 
       <main className="flex-grow pt-20">
         {/* Hero Section */}
-        <section id="home" className="relative h-[85vh] flex items-center overflow-hidden">
+        <section id="home" className="relative min-h-screen flex items-center overflow-hidden">
           <div className="absolute inset-0 z-0">
             <img 
               src="/images/hero-travel.svg" 
               alt="Travel Hero" 
               className="w-full h-full object-cover"
             />
-            <div className="absolute inset-0 bg-gradient-to-r from-blue-900/90 to-black/40"></div>
+            <div className="absolute inset-0 bg-gradient-to-br from-slate-900/95 via-blue-900/90 to-indigo-900/85"></div>
           </div>
           
+          {/* Floating elements for depth */}
+          <div className="absolute top-20 right-20 w-72 h-72 bg-blue-500/10 rounded-full blur-3xl animate-pulse"></div>
+          <div className="absolute bottom-20 left-20 w-96 h-96 bg-indigo-500/10 rounded-full blur-3xl animate-pulse delay-1000"></div>
+          
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-white">
-            <div className="max-w-3xl animate-in fade-in slide-in-from-left-10 duration-1000">
-              <span className="inline-block bg-blue-600/30 backdrop-blur-sm border border-blue-400/30 text-blue-200 px-4 py-1 rounded-full text-sm font-semibold mb-6 uppercase tracking-widest">
-                Seamless Travel & Logistics
-              </span>
-              <h1 className="text-5xl md:text-7xl font-bold mb-6 leading-tight">
-                Your Gateway to <span className="text-blue-400">Premium</span> World Travel.
+            <div className="max-w-4xl animate-in fade-in slide-in-from-left-10 duration-1000">
+              <div className="inline-flex items-center bg-gradient-to-r from-blue-600/20 to-indigo-600/20 backdrop-blur-md border border-blue-400/30 text-blue-200 px-6 py-3 rounded-full text-sm font-semibold mb-8 uppercase tracking-wider">
+                <div className="w-2 h-2 bg-blue-400 rounded-full mr-3 animate-pulse"></div>
+                Premium Travel & Logistics Solutions
+              </div>
+              
+              <h1 className="text-6xl md:text-8xl font-black mb-8 leading-[0.9] tracking-tight">
+                Your Gateway to
+                <span className="block bg-gradient-to-r from-blue-400 via-cyan-400 to-indigo-400 bg-clip-text text-transparent">
+                  Elite Travel
+                </span>
               </h1>
-              <p className="text-xl text-gray-200 mb-10 leading-relaxed">
-                R&M Groups offers elite flight processing, visa assistance, luxury car rentals, and fast delivery logistics across Nigeria's major hubs.
+              
+              <p className="text-xl md:text-2xl text-slate-200 mb-12 leading-relaxed font-light max-w-3xl">
+                Experience world-class travel management with R&M Groups. From international flights to luxury ground transport, we deliver seamless solutions across Nigeria and beyond.
               </p>
-              <div className="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4">
+              
+              <div className="flex flex-col sm:flex-row gap-6">
                 <button 
                   onClick={() => document.getElementById('services')?.scrollIntoView({ behavior: 'smooth' })}
-                  className="bg-white text-blue-900 px-8 py-4 rounded-full font-bold text-lg hover:bg-gray-100 transition-all shadow-xl active:scale-95 text-center"
+                  className="group bg-white text-slate-900 px-10 py-5 rounded-2xl font-bold text-lg hover:bg-slate-100 transition-all duration-300 shadow-2xl hover:shadow-white/20 active:scale-95 text-center relative overflow-hidden"
                 >
-                  Explore Services
+                  <span className="relative z-10">Explore Our Services</span>
+                  <div className="absolute inset-0 bg-gradient-to-r from-blue-600 to-indigo-600 opacity-0 group-hover:opacity-10 transition-opacity duration-300"></div>
                 </button>
                 <button 
                   onClick={() => document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' })}
-                  className="bg-blue-600 text-white px-8 py-4 rounded-full font-bold text-lg hover:bg-blue-700 transition-all shadow-xl active:scale-95 text-center"
+                  className="group bg-gradient-to-r from-blue-600 to-indigo-600 text-white px-10 py-5 rounded-2xl font-bold text-lg hover:from-blue-700 hover:to-indigo-700 transition-all duration-300 shadow-2xl hover:shadow-blue-500/25 active:scale-95 text-center relative overflow-hidden"
                 >
-                  Book a Consultation
+                  <span className="relative z-10">Start Your Journey</span>
+                  <div className="absolute inset-0 bg-white opacity-0 group-hover:opacity-10 transition-opacity duration-300"></div>
                 </button>
+              </div>
+              
+              {/* Trust indicators */}
+              <div className="flex items-center gap-8 mt-16 pt-8 border-t border-white/10">
+                <div className="text-center">
+                  <div className="text-3xl font-bold text-blue-400">500+</div>
+                  <div className="text-sm text-slate-400 uppercase tracking-wider">Happy Clients</div>
+                </div>
+                <div className="w-px h-12 bg-white/20"></div>
+                <div className="text-center">
+                  <div className="text-3xl font-bold text-blue-400">24/7</div>
+                  <div className="text-sm text-slate-400 uppercase tracking-wider">Support</div>
+                </div>
+                <div className="w-px h-12 bg-white/20"></div>
+                <div className="text-center">
+                  <div className="text-3xl font-bold text-blue-400">100%</div>
+                  <div className="text-sm text-slate-400 uppercase tracking-wider">Reliable</div>
+                </div>
               </div>
             </div>
           </div>
         </section>
 
         {/* Core Values Section */}
-        <section className="py-16 bg-white border-b border-gray-100">
+        <section className="py-24 bg-gradient-to-br from-slate-50 to-blue-50/30 border-b border-slate-200/50">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="text-center mb-16">
+              <h2 className="text-4xl md:text-5xl font-bold text-slate-900 mb-6">Why Choose R&M Groups</h2>
+              <div className="w-24 h-1 bg-gradient-to-r from-blue-600 to-indigo-600 mx-auto rounded-full mb-6"></div>
+              <p className="text-slate-600 max-w-2xl mx-auto text-lg leading-relaxed">
+                Built on excellence, powered by innovation, and driven by your success.
+              </p>
+            </div>
+            
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-              <div className="flex items-center space-x-4 p-6 rounded-2xl bg-blue-50/50">
-                <div className="bg-blue-600 p-3 rounded-xl text-white">
-                  <Globe size={24} />
-                </div>
-                <div>
-                  <h4 className="font-bold text-gray-900">Global Reach</h4>
-                  <p className="text-sm text-gray-600">Travel anywhere across the globe with ease.</p>
-                </div>
-              </div>
-              <div className="flex items-center space-x-4 p-6 rounded-2xl bg-indigo-50/50">
-                <div className="bg-indigo-600 p-3 rounded-xl text-white">
-                  <Shield size={24} />
-                </div>
-                <div>
-                  <h4 className="font-bold text-gray-900">Secure & Protected</h4>
-                  <p className="text-sm text-gray-600">Insurance policies for ultimate peace of mind.</p>
+              <div className="group relative bg-white p-8 rounded-3xl shadow-lg hover:shadow-2xl transition-all duration-500 border border-slate-100 hover:border-blue-200 hover:-translate-y-2">
+                <div className="absolute inset-0 bg-gradient-to-br from-blue-50 to-indigo-50 rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                <div className="relative z-10">
+                  <div className="bg-gradient-to-br from-blue-600 to-indigo-600 p-4 rounded-2xl text-white w-fit mb-6 group-hover:scale-110 transition-transform duration-300">
+                    <Globe size={32} />
+                  </div>
+                  <h4 className="text-2xl font-bold text-slate-900 mb-4">Global Reach</h4>
+                  <p className="text-slate-600 leading-relaxed">
+                    Connect to any destination worldwide with our extensive network of trusted partners and premium service providers.
+                  </p>
                 </div>
               </div>
-              <div className="flex items-center space-x-4 p-6 rounded-2xl bg-purple-50/50">
-                <div className="bg-purple-600 p-3 rounded-xl text-white">
-                  <Zap size={24} />
+              
+              <div className="group relative bg-white p-8 rounded-3xl shadow-lg hover:shadow-2xl transition-all duration-500 border border-slate-100 hover:border-indigo-200 hover:-translate-y-2">
+                <div className="absolute inset-0 bg-gradient-to-br from-indigo-50 to-purple-50 rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                <div className="relative z-10">
+                  <div className="bg-gradient-to-br from-indigo-600 to-purple-600 p-4 rounded-2xl text-white w-fit mb-6 group-hover:scale-110 transition-transform duration-300">
+                    <Shield size={32} />
+                  </div>
+                  <h4 className="text-2xl font-bold text-slate-900 mb-4">Secure & Protected</h4>
+                  <p className="text-slate-600 leading-relaxed">
+                    Comprehensive insurance coverage and secure booking systems ensure your peace of mind throughout your journey.
+                  </p>
                 </div>
-                <div>
-                  <h4 className="font-bold text-gray-900">Swift Logistics</h4>
-                  <p className="text-sm text-gray-600">Rapid urban delivery in Lagos, PH, & Abuja.</p>
+              </div>
+              
+              <div className="group relative bg-white p-8 rounded-3xl shadow-lg hover:shadow-2xl transition-all duration-500 border border-slate-100 hover:border-purple-200 hover:-translate-y-2">
+                <div className="absolute inset-0 bg-gradient-to-br from-purple-50 to-pink-50 rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                <div className="relative z-10">
+                  <div className="bg-gradient-to-br from-purple-600 to-pink-600 p-4 rounded-2xl text-white w-fit mb-6 group-hover:scale-110 transition-transform duration-300">
+                    <Zap size={32} />
+                  </div>
+                  <h4 className="text-2xl font-bold text-slate-900 mb-4">Swift Logistics</h4>
+                  <p className="text-slate-600 leading-relaxed">
+                    Lightning-fast urban delivery services across Lagos, Port Harcourt, and Abuja with real-time tracking.
+                  </p>
                 </div>
               </div>
             </div>
@@ -89,95 +140,185 @@ const App: React.FC = () => {
         </section>
 
         {/* Services Section */}
-        <section id="services" className="py-24 bg-gray-50">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="text-center mb-16">
-              <h2 className="text-4xl font-bold text-gray-900 mb-4">Comprehensive Core Services</h2>
-              <div className="w-20 h-1.5 bg-blue-600 mx-auto rounded-full mb-6"></div>
-              <p className="text-gray-600 max-w-2xl mx-auto text-lg">
-                We handle every detail of your travel and logistics requirements so you can focus on what matters most.
+        <section id="services" className="py-32 bg-white relative overflow-hidden">
+          {/* Background decoration */}
+          <div className="absolute top-0 right-0 w-1/3 h-full bg-gradient-to-l from-blue-50/50 to-transparent"></div>
+          <div className="absolute bottom-0 left-0 w-1/3 h-full bg-gradient-to-r from-indigo-50/50 to-transparent"></div>
+          
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div className="text-center mb-20">
+              <div className="inline-flex items-center bg-gradient-to-r from-blue-100 to-indigo-100 text-blue-800 px-6 py-3 rounded-full text-sm font-semibold mb-6 uppercase tracking-wider">
+                <div className="w-2 h-2 bg-blue-600 rounded-full mr-3"></div>
+                Our Services
+              </div>
+              <h2 className="text-5xl md:text-6xl font-black text-slate-900 mb-8 leading-tight">
+                Comprehensive Travel
+                <span className="block bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">
+                  Solutions
+                </span>
+              </h2>
+              <p className="text-xl text-slate-600 max-w-3xl mx-auto leading-relaxed">
+                From international flights to luxury ground transport, we handle every aspect of your travel needs with precision and care.
               </p>
             </div>
             
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
               {SERVICES.map((service) => (
                 <ServiceCard key={service.id} service={service} />
               ))}
+            </div>
+            
+            {/* Call to action */}
+            <div className="text-center mt-20">
+              <button 
+                onClick={() => document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' })}
+                className="group bg-gradient-to-r from-blue-600 to-indigo-600 text-white px-12 py-6 rounded-2xl font-bold text-lg hover:from-blue-700 hover:to-indigo-700 transition-all duration-300 shadow-2xl hover:shadow-blue-500/25 active:scale-95 relative overflow-hidden"
+              >
+                <span className="relative z-10">Get Custom Quote</span>
+                <div className="absolute inset-0 bg-white opacity-0 group-hover:opacity-10 transition-opacity duration-300"></div>
+              </button>
             </div>
           </div>
         </section>
 
         {/* Checklist/Assurance Section */}
-        <section className="py-24 bg-blue-900 text-white overflow-hidden">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="flex flex-col lg:flex-row items-center gap-12">
+        <section className="py-32 bg-gradient-to-br from-slate-900 via-blue-900 to-indigo-900 text-white overflow-hidden relative">
+          {/* Background decorations */}
+          <div className="absolute top-0 left-0 w-full h-full">
+            <div className="absolute top-20 right-20 w-96 h-96 bg-blue-500/10 rounded-full blur-3xl animate-pulse"></div>
+            <div className="absolute bottom-20 left-20 w-80 h-80 bg-indigo-500/10 rounded-full blur-3xl animate-pulse delay-1000"></div>
+          </div>
+          
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div className="flex flex-col lg:flex-row items-center gap-16">
               <div className="lg:w-1/2">
-                <h2 className="text-4xl font-bold mb-8">Professional Excellence, Guaranteed.</h2>
-                <p className="text-blue-100 mb-10 text-lg leading-relaxed">
-                  We adhere to a rigorous internal standard to ensure every client receives world-class service. Our pre-publicity checklist ensures we are fully operational and ready to serve.
+                <div className="inline-flex items-center bg-white/10 backdrop-blur-md border border-white/20 text-blue-200 px-6 py-3 rounded-full text-sm font-semibold mb-8 uppercase tracking-wider">
+                  <div className="w-2 h-2 bg-blue-400 rounded-full mr-3 animate-pulse"></div>
+                  Professional Excellence
+                </div>
+                
+                <h2 className="text-5xl md:text-6xl font-black mb-8 leading-tight">
+                  Guaranteed
+                  <span className="block bg-gradient-to-r from-blue-400 to-cyan-400 bg-clip-text text-transparent">
+                    Quality Standards
+                  </span>
+                </h2>
+                
+                <p className="text-xl text-slate-200 mb-12 leading-relaxed font-light">
+                  We maintain rigorous operational standards to ensure every client receives world-class service. Our comprehensive quality assurance process guarantees excellence at every touchpoint.
                 </p>
                 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                   {[
-                    "Registered Business Name",
-                    "Valid Travel Permits & TIN",
-                    "Official GDS Booking Access",
-                    "Refund & Cancellation Policies",
-                    "Secure Client Database",
-                    "Emergency Response Plans"
+                    { title: "Licensed & Registered", desc: "Fully compliant business operations" },
+                    { title: "GDS Booking Access", desc: "Direct airline reservation systems" },
+                    { title: "24/7 Support Team", desc: "Round-the-clock assistance" },
+                    { title: "Secure Payments", desc: "Protected transaction processing" },
+                    { title: "Insurance Coverage", desc: "Comprehensive protection plans" },
+                    { title: "Emergency Response", desc: "Immediate crisis management" }
                   ].map((item, idx) => (
-                    <div key={idx} className="flex items-center space-x-3 bg-white/10 p-4 rounded-xl backdrop-blur-sm border border-white/10">
-                      <CheckCircle2 className="text-blue-400 flex-shrink-0" size={20} />
-                      <span className="text-sm font-medium">{item}</span>
+                    <div key={idx} className="group flex items-start space-x-4 bg-white/5 backdrop-blur-sm p-6 rounded-2xl border border-white/10 hover:bg-white/10 hover:border-white/20 transition-all duration-300">
+                      <div className="bg-gradient-to-br from-blue-500 to-cyan-500 p-2 rounded-xl group-hover:scale-110 transition-transform duration-300">
+                        <CheckCircle2 className="text-white flex-shrink-0" size={20} />
+                      </div>
+                      <div>
+                        <h4 className="font-bold text-white mb-1">{item.title}</h4>
+                        <p className="text-sm text-slate-300">{item.desc}</p>
+                      </div>
                     </div>
                   ))}
                 </div>
               </div>
+              
               <div className="lg:w-1/2 relative">
-                <div className="relative z-10 rounded-3xl overflow-hidden shadow-2xl rotate-3 hover:rotate-0 transition-transform duration-500">
+                <div className="relative z-10 rounded-3xl overflow-hidden shadow-2xl group">
                   <img 
                     src="/images/corporate-office.svg" 
-                    alt="Corporate" 
-                    className="w-full h-auto"
+                    alt="Corporate Excellence" 
+                    className="w-full h-auto group-hover:scale-105 transition-transform duration-700"
                   />
+                  <div className="absolute inset-0 bg-gradient-to-t from-blue-900/20 to-transparent"></div>
                 </div>
-                <div className="absolute -bottom-6 -left-6 w-32 h-32 bg-blue-500/20 rounded-full blur-2xl"></div>
-                <div className="absolute -top-6 -right-6 w-32 h-32 bg-blue-400/20 rounded-full blur-2xl"></div>
+                
+                {/* Floating elements */}
+                <div className="absolute -top-8 -right-8 w-32 h-32 bg-gradient-to-br from-blue-500/20 to-cyan-500/20 rounded-full blur-2xl animate-pulse"></div>
+                <div className="absolute -bottom-8 -left-8 w-40 h-40 bg-gradient-to-br from-indigo-500/20 to-purple-500/20 rounded-full blur-2xl animate-pulse delay-1000"></div>
               </div>
             </div>
           </div>
         </section>
 
         {/* About Section */}
-        <section id="about" className="py-24 bg-white">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="flex flex-col lg:flex-row items-center gap-16">
+        <section id="about" className="py-32 bg-gradient-to-br from-slate-50 to-blue-50/30 relative overflow-hidden">
+          {/* Background decoration */}
+          <div className="absolute top-0 right-0 w-1/2 h-full bg-gradient-to-l from-blue-100/30 to-transparent"></div>
+          
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div className="flex flex-col lg:flex-row items-center gap-20">
               <div className="lg:w-1/2">
-                <div className="grid grid-cols-2 gap-4">
-                  <img src="/images/team-office.svg" className="rounded-2xl shadow-md h-64 object-cover" alt="Team" />
-                  <img src="/images/tech-workspace.svg" className="rounded-2xl shadow-md h-64 object-cover mt-12" alt="Office" />
+                <div className="grid grid-cols-2 gap-6">
+                  <div className="space-y-6">
+                    <div className="group relative overflow-hidden rounded-3xl shadow-lg hover:shadow-2xl transition-all duration-500">
+                      <img src="/images/team-office.svg" className="w-full h-72 object-cover group-hover:scale-110 transition-transform duration-700" alt="Professional Team" />
+                      <div className="absolute inset-0 bg-gradient-to-t from-slate-900/50 to-transparent"></div>
+                      <div className="absolute bottom-4 left-4 text-white">
+                        <h4 className="font-bold text-lg">Expert Team</h4>
+                        <p className="text-sm opacity-90">Professional consultants</p>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="space-y-6 mt-12">
+                    <div className="group relative overflow-hidden rounded-3xl shadow-lg hover:shadow-2xl transition-all duration-500">
+                      <img src="/images/tech-workspace.svg" className="w-full h-72 object-cover group-hover:scale-110 transition-transform duration-700" alt="Modern Technology" />
+                      <div className="absolute inset-0 bg-gradient-to-t from-slate-900/50 to-transparent"></div>
+                      <div className="absolute bottom-4 left-4 text-white">
+                        <h4 className="font-bold text-lg">Advanced Systems</h4>
+                        <p className="text-sm opacity-90">Cutting-edge technology</p>
+                      </div>
+                    </div>
+                  </div>
                 </div>
               </div>
+              
               <div className="lg:w-1/2">
-                <span className="text-blue-600 font-bold uppercase tracking-wider text-sm mb-4 block">About R&M Groups</span>
-                <h2 className="text-4xl font-bold text-gray-900 mb-8 leading-tight">Your Trusted Travel Management Concierge</h2>
-                <p className="text-gray-600 text-lg leading-relaxed mb-8 italic">
-                  "{COMPANY_DETAILS.about}"
-                </p>
-                <div className="flex items-center space-x-6">
-                  <div className="text-center">
-                    <p className="text-3xl font-bold text-blue-600">100%</p>
-                    <p className="text-xs text-gray-500 uppercase font-semibold">Reliability</p>
+                <div className="inline-flex items-center bg-gradient-to-r from-blue-100 to-indigo-100 text-blue-800 px-6 py-3 rounded-full text-sm font-semibold mb-8 uppercase tracking-wider">
+                  <div className="w-2 h-2 bg-blue-600 rounded-full mr-3"></div>
+                  About R&M Groups
+                </div>
+                
+                <h2 className="text-5xl md:text-6xl font-black text-slate-900 mb-8 leading-tight">
+                  Your Trusted
+                  <span className="block bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">
+                    Travel Partner
+                  </span>
+                </h2>
+                
+                <div className="bg-white p-8 rounded-3xl shadow-lg border border-slate-100 mb-10">
+                  <p className="text-lg text-slate-700 leading-relaxed italic">
+                    "{COMPANY_DETAILS.about}"
+                  </p>
+                </div>
+                
+                <div className="grid grid-cols-3 gap-8">
+                  <div className="text-center group">
+                    <div className="bg-gradient-to-br from-blue-600 to-indigo-600 text-white p-4 rounded-2xl mb-4 group-hover:scale-110 transition-transform duration-300">
+                      <div className="text-3xl font-black">100%</div>
+                    </div>
+                    <p className="text-sm text-slate-600 uppercase font-semibold tracking-wider">Reliability</p>
                   </div>
-                  <div className="w-px h-10 bg-gray-200"></div>
-                  <div className="text-center">
-                    <p className="text-3xl font-bold text-blue-600">24/7</p>
-                    <p className="text-xs text-gray-500 uppercase font-semibold">Support</p>
+                  
+                  <div className="text-center group">
+                    <div className="bg-gradient-to-br from-indigo-600 to-purple-600 text-white p-4 rounded-2xl mb-4 group-hover:scale-110 transition-transform duration-300">
+                      <div className="text-3xl font-black">24/7</div>
+                    </div>
+                    <p className="text-sm text-slate-600 uppercase font-semibold tracking-wider">Support</p>
                   </div>
-                  <div className="w-px h-10 bg-gray-200"></div>
-                  <div className="text-center">
-                    <p className="text-3xl font-bold text-blue-600">Elite</p>
-                    <p className="text-xs text-gray-500 uppercase font-semibold">Partnerships</p>
+                  
+                  <div className="text-center group">
+                    <div className="bg-gradient-to-br from-purple-600 to-pink-600 text-white p-4 rounded-2xl mb-4 group-hover:scale-110 transition-transform duration-300">
+                      <div className="text-3xl font-black">Elite</div>
+                    </div>
+                    <p className="text-sm text-slate-600 uppercase font-semibold tracking-wider">Partnerships</p>
                   </div>
                 </div>
               </div>
@@ -186,55 +327,91 @@ const App: React.FC = () => {
         </section>
 
         {/* Contact Section */}
-        <section id="contact" className="py-24 bg-gray-50">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="flex flex-col lg:flex-row gap-16">
-              <div className="lg:w-1/3">
-                <h2 className="text-4xl font-bold text-gray-900 mb-8">Get In Touch</h2>
-                <p className="text-gray-600 mb-10">Our consultants are ready to help you plan your next journey or arrange your urban deliveries.</p>
-                
+        <section id="contact" className="py-32 bg-white relative overflow-hidden">
+          {/* Background decoration */}
+          <div className="absolute top-0 left-0 w-1/3 h-full bg-gradient-to-r from-blue-50/50 to-transparent"></div>
+          <div className="absolute bottom-0 right-0 w-1/3 h-full bg-gradient-to-l from-indigo-50/50 to-transparent"></div>
+          
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div className="text-center mb-20">
+              <div className="inline-flex items-center bg-gradient-to-r from-blue-100 to-indigo-100 text-blue-800 px-6 py-3 rounded-full text-sm font-semibold mb-8 uppercase tracking-wider">
+                <div className="w-2 h-2 bg-blue-600 rounded-full mr-3"></div>
+                Get In Touch
+              </div>
+              <h2 className="text-5xl md:text-6xl font-black text-slate-900 mb-8 leading-tight">
+                Start Your Journey
+                <span className="block bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">
+                  Today
+                </span>
+              </h2>
+              <p className="text-xl text-slate-600 max-w-3xl mx-auto leading-relaxed">
+                Ready to experience premium travel services? Our expert consultants are standing by to help you plan your perfect journey.
+              </p>
+            </div>
+            
+            <div className="flex flex-col lg:flex-row gap-20">
+              <div className="lg:w-2/5">
                 <div className="space-y-8">
-                  <div className="flex items-start space-x-4">
-                    <div className="bg-blue-100 p-3 rounded-xl text-blue-600">
-                      <Phone size={24} />
+                  <div className="group flex items-start space-x-6 p-6 bg-gradient-to-br from-blue-50 to-indigo-50 rounded-3xl hover:from-blue-100 hover:to-indigo-100 transition-all duration-300">
+                    <div className="bg-gradient-to-br from-blue-600 to-indigo-600 p-4 rounded-2xl text-white group-hover:scale-110 transition-transform duration-300">
+                      <Phone size={28} />
                     </div>
                     <div>
-                      <h4 className="font-bold text-gray-900">Phone & WhatsApp</h4>
-                      <p className="text-gray-600">{COMPANY_DETAILS.phone}</p>
-                      <a href={`https://wa.me/${COMPANY_DETAILS.whatsapp}`} className="text-sm text-blue-600 hover:underline">Chat on WhatsApp</a>
+                      <h4 className="text-xl font-bold text-slate-900 mb-2">Phone & WhatsApp</h4>
+                      <p className="text-slate-600 text-lg mb-2">{COMPANY_DETAILS.phone}</p>
+                      <a href={`https://wa.me/${COMPANY_DETAILS.whatsapp}`} className="inline-flex items-center text-green-600 font-semibold hover:text-green-700 transition-colors">
+                        <span>Chat on WhatsApp</span>
+                        <Icons.ExternalLink size={16} className="ml-2" />
+                      </a>
                     </div>
                   </div>
                   
-                  <div className="flex items-start space-x-4">
-                    <div className="bg-blue-100 p-3 rounded-xl text-blue-600">
-                      <Mail size={24} />
+                  <div className="group flex items-start space-x-6 p-6 bg-gradient-to-br from-indigo-50 to-purple-50 rounded-3xl hover:from-indigo-100 hover:to-purple-100 transition-all duration-300">
+                    <div className="bg-gradient-to-br from-indigo-600 to-purple-600 p-4 rounded-2xl text-white group-hover:scale-110 transition-transform duration-300">
+                      <Mail size={28} />
                     </div>
                     <div>
-                      <h4 className="font-bold text-gray-900">Email Address</h4>
-                      <p className="text-gray-600">{COMPANY_DETAILS.email}</p>
+                      <h4 className="text-xl font-bold text-slate-900 mb-2">Email Address</h4>
+                      <p className="text-slate-600 text-lg">{COMPANY_DETAILS.email}</p>
+                      <a href={`mailto:${COMPANY_DETAILS.email}`} className="inline-flex items-center text-blue-600 font-semibold hover:text-blue-700 transition-colors">
+                        <span>Send Email</span>
+                        <Icons.ExternalLink size={16} className="ml-2" />
+                      </a>
                     </div>
                   </div>
                   
-                  <div className="flex items-start space-x-4">
-                    <div className="bg-blue-100 p-3 rounded-xl text-blue-600">
-                      <MapPin size={24} />
+                  <div className="group flex items-start space-x-6 p-6 bg-gradient-to-br from-purple-50 to-pink-50 rounded-3xl hover:from-purple-100 hover:to-pink-100 transition-all duration-300">
+                    <div className="bg-gradient-to-br from-purple-600 to-pink-600 p-4 rounded-2xl text-white group-hover:scale-110 transition-transform duration-300">
+                      <MapPin size={28} />
                     </div>
                     <div>
-                      <h4 className="font-bold text-gray-900">Coverage Areas</h4>
-                      <p className="text-gray-600">Lagos, Port Harcourt, Abuja & Nationwide Logistics</p>
+                      <h4 className="text-xl font-bold text-slate-900 mb-2">Service Areas</h4>
+                      <p className="text-slate-600 text-lg">Lagos, Port Harcourt, Abuja</p>
+                      <p className="text-sm text-slate-500">Nationwide logistics coverage</p>
                     </div>
                   </div>
                 </div>
 
-                <div className="mt-12 p-6 bg-blue-600 rounded-2xl text-white">
-                  <h4 className="font-bold mb-2">Office Hours</h4>
-                  <p className="text-sm text-blue-100">Monday - Friday: 8:00 AM - 6:00 PM</p>
-                  <p className="text-sm text-blue-100">Saturday: 10:00 AM - 4:00 PM</p>
-                  <p className="text-sm text-blue-100">Emergency Bookings: 24/7 (WhatsApp)</p>
+                <div className="mt-12 p-8 bg-gradient-to-br from-slate-900 to-blue-900 rounded-3xl text-white">
+                  <h4 className="text-xl font-bold mb-6">Business Hours</h4>
+                  <div className="space-y-3">
+                    <div className="flex justify-between items-center">
+                      <span className="text-slate-300">Monday - Friday</span>
+                      <span className="font-semibold">8:00 AM - 6:00 PM</span>
+                    </div>
+                    <div className="flex justify-between items-center">
+                      <span className="text-slate-300">Saturday</span>
+                      <span className="font-semibold">10:00 AM - 4:00 PM</span>
+                    </div>
+                    <div className="flex justify-between items-center">
+                      <span className="text-slate-300">Emergency Support</span>
+                      <span className="font-semibold text-green-400">24/7 Available</span>
+                    </div>
+                  </div>
                 </div>
               </div>
               
-              <div className="lg:w-2/3">
+              <div className="lg:w-3/5">
                 <ContactForm />
               </div>
             </div>
@@ -242,44 +419,118 @@ const App: React.FC = () => {
         </section>
       </main>
 
-      <footer className="bg-gray-900 text-white py-16">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-12 mb-12">
+      <footer className="bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 text-white py-20 relative overflow-hidden">
+        {/* Background decoration */}
+        <div className="absolute top-0 right-0 w-1/2 h-full bg-gradient-to-l from-blue-900/20 to-transparent"></div>
+        <div className="absolute bottom-0 left-0 w-1/2 h-full bg-gradient-to-r from-indigo-900/20 to-transparent"></div>
+        
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-12 mb-16">
             <div className="col-span-1 md:col-span-2">
-              <span className="text-3xl font-bold bg-gradient-to-r from-blue-400 to-indigo-400 bg-clip-text text-transparent mb-6 block">
-                {COMPANY_DETAILS.name}
-              </span>
-              <p className="text-gray-400 max-w-sm mb-6">
-                Redefining travel and logistics in Nigeria and beyond. Quality service you can trust 24/7.
+              <div className="mb-8">
+                <span className="text-4xl font-black bg-gradient-to-r from-blue-400 via-cyan-400 to-indigo-400 bg-clip-text text-transparent">
+                  {COMPANY_DETAILS.name}
+                </span>
+              </div>
+              <p className="text-slate-300 max-w-md mb-8 text-lg leading-relaxed">
+                Redefining travel and logistics excellence across Nigeria and beyond. Your trusted partner for premium travel solutions.
               </p>
-              <div className="flex space-x-4">
-                {/* Social icons could go here */}
+              
+              {/* Social proof */}
+              <div className="flex items-center space-x-8 mb-8">
+                <div className="text-center">
+                  <div className="text-2xl font-bold text-blue-400">500+</div>
+                  <div className="text-xs text-slate-400 uppercase tracking-wider">Satisfied Clients</div>
+                </div>
+                <div className="w-px h-8 bg-slate-600"></div>
+                <div className="text-center">
+                  <div className="text-2xl font-bold text-blue-400">50+</div>
+                  <div className="text-xs text-slate-400 uppercase tracking-wider">Destinations</div>
+                </div>
+                <div className="w-px h-8 bg-slate-600"></div>
+                <div className="text-center">
+                  <div className="text-2xl font-bold text-blue-400">24/7</div>
+                  <div className="text-xs text-slate-400 uppercase tracking-wider">Support</div>
+                </div>
               </div>
             </div>
             
             <div>
-              <h4 className="font-bold mb-6">Company</h4>
-              <ul className="space-y-4 text-gray-400 text-sm">
-                <li><button onClick={() => document.getElementById('about')?.scrollIntoView({behavior:'smooth'})} className="hover:text-blue-400">About Us</button></li>
-                <li><button onClick={() => document.getElementById('services')?.scrollIntoView({behavior:'smooth'})} className="hover:text-blue-400">Our Services</button></li>
-                <li><a href="#" className="hover:text-blue-400">Privacy Policy</a></li>
-                <li><a href="#" className="hover:text-blue-400">Terms of Service</a></li>
+              <h4 className="text-xl font-bold mb-8 text-white">Company</h4>
+              <ul className="space-y-4">
+                <li>
+                  <button 
+                    onClick={() => document.getElementById('about')?.scrollIntoView({behavior:'smooth'})} 
+                    className="text-slate-300 hover:text-blue-400 transition-colors duration-300 text-left"
+                  >
+                    About Us
+                  </button>
+                </li>
+                <li>
+                  <button 
+                    onClick={() => document.getElementById('services')?.scrollIntoView({behavior:'smooth'})} 
+                    className="text-slate-300 hover:text-blue-400 transition-colors duration-300 text-left"
+                  >
+                    Our Services
+                  </button>
+                </li>
+                <li>
+                  <a href="#" className="text-slate-300 hover:text-blue-400 transition-colors duration-300">
+                    Privacy Policy
+                  </a>
+                </li>
+                <li>
+                  <a href="#" className="text-slate-300 hover:text-blue-400 transition-colors duration-300">
+                    Terms of Service
+                  </a>
+                </li>
               </ul>
             </div>
             
             <div>
-              <h4 className="font-bold mb-6">Support</h4>
-              <ul className="space-y-4 text-gray-400 text-sm">
-                <li><a href={`mailto:${COMPANY_DETAILS.email}`} className="hover:text-blue-400">Support Center</a></li>
-                <li><a href="#" className="hover:text-blue-400">Booking Guides</a></li>
-                <li><a href="#" className="hover:text-blue-400">Visa Requirements</a></li>
-                <li><a href="#" className="hover:text-blue-400">FAQ</a></li>
+              <h4 className="text-xl font-bold mb-8 text-white">Support</h4>
+              <ul className="space-y-4">
+                <li>
+                  <a 
+                    href={`mailto:${COMPANY_DETAILS.email}`} 
+                    className="text-slate-300 hover:text-blue-400 transition-colors duration-300"
+                  >
+                    Support Center
+                  </a>
+                </li>
+                <li>
+                  <a href="#" className="text-slate-300 hover:text-blue-400 transition-colors duration-300">
+                    Booking Guides
+                  </a>
+                </li>
+                <li>
+                  <a href="#" className="text-slate-300 hover:text-blue-400 transition-colors duration-300">
+                    Visa Requirements
+                  </a>
+                </li>
+                <li>
+                  <a href="#" className="text-slate-300 hover:text-blue-400 transition-colors duration-300">
+                    FAQ
+                  </a>
+                </li>
               </ul>
             </div>
           </div>
           
-          <div className="pt-8 border-t border-gray-800 text-center text-gray-500 text-sm">
-            <p>&copy; {new Date().getFullYear()} {COMPANY_DETAILS.name}. All rights reserved.</p>
+          <div className="pt-8 border-t border-slate-700">
+            <div className="flex flex-col md:flex-row justify-between items-center">
+              <p className="text-slate-400 text-sm">
+                &copy; {new Date().getFullYear()} {COMPANY_DETAILS.name}. All rights reserved.
+              </p>
+              <div className="flex items-center space-x-6 mt-4 md:mt-0">
+                <span className="text-slate-400 text-sm">Powered by excellence</span>
+                <div className="flex space-x-2">
+                  <div className="w-2 h-2 bg-blue-400 rounded-full animate-pulse"></div>
+                  <div className="w-2 h-2 bg-indigo-400 rounded-full animate-pulse delay-200"></div>
+                  <div className="w-2 h-2 bg-purple-400 rounded-full animate-pulse delay-400"></div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </footer>
