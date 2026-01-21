@@ -1,14 +1,20 @@
 
-import React from 'react';
+import React, { useState } from 'react';
 import Navbar from './components/Navbar';
 import ServiceCard from './components/ServiceCard';
 import ContactForm from './components/ContactForm';
 import ChatBot from './components/ChatBot';
+import TermsAndConditions from './components/TermsAndConditions';
+import CookiePolicy from './components/CookiePolicy';
+import CookieBanner from './components/CookieBanner';
 import { SERVICES, COMPANY_DETAILS } from './constants';
 import { Mail, Phone, MapPin, CheckCircle2, Globe, Shield, Zap, ExternalLink } from 'lucide-react';
 import * as Icons from 'lucide-react';
 
 const App: React.FC = () => {
+  const [showTerms, setShowTerms] = useState(false);
+  const [showCookiePolicy, setShowCookiePolicy] = useState(false);
+
   return (
     <div className="min-h-screen flex flex-col">
       <Navbar />
@@ -18,8 +24,8 @@ const App: React.FC = () => {
         <section id="home" className="relative min-h-screen flex items-center overflow-hidden">
           <div className="absolute inset-0 z-0">
             <img 
-              src="/images/hero-travel.svg" 
-              alt="Travel Hero" 
+              src="/images/professional-hero.svg" 
+              alt="Professional Travel Services" 
               className="w-full h-full object-cover"
             />
             <div className="absolute inset-0 bg-gradient-to-br from-slate-900/95 via-blue-900/90 to-indigo-900/85"></div>
@@ -234,7 +240,7 @@ const App: React.FC = () => {
               <div className="lg:w-1/2 relative">
                 <div className="relative z-10 rounded-3xl overflow-hidden shadow-2xl group">
                   <img 
-                    src="/images/corporate-office.svg" 
+                    src="/images/luxury-business.svg" 
                     alt="Corporate Excellence" 
                     className="w-full h-auto group-hover:scale-105 transition-transform duration-700"
                   />
@@ -255,7 +261,23 @@ const App: React.FC = () => {
           <div className="absolute top-0 right-0 w-1/2 h-full bg-gradient-to-l from-blue-100/30 to-transparent"></div>
           
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-            <div className="flex flex-col lg:flex-row items-center gap-20">
+            <div className="text-center mb-16">
+              <div className="inline-flex items-center bg-gradient-to-r from-blue-100 to-indigo-100 text-blue-800 px-6 py-3 rounded-full text-sm font-semibold mb-8 uppercase tracking-wider">
+                <div className="w-2 h-2 bg-blue-600 rounded-full mr-3"></div>
+                About R&M Groups
+              </div>
+              <h2 className="text-5xl md:text-6xl font-black text-slate-900 mb-8 leading-tight">
+                Your Trusted
+                <span className="block bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">
+                  Travel Partner
+                </span>
+              </h2>
+              <p className="text-xl text-slate-600 max-w-3xl mx-auto leading-relaxed">
+                Since our inception, R&M Groups has been at the forefront of premium travel and logistics solutions, serving discerning clients across Nigeria and beyond.
+              </p>
+            </div>
+
+            <div className="flex flex-col lg:flex-row items-center gap-20 mb-20">
               <div className="lg:w-1/2">
                 <div className="grid grid-cols-2 gap-6">
                   <div className="space-y-6">
@@ -282,44 +304,90 @@ const App: React.FC = () => {
               </div>
               
               <div className="lg:w-1/2">
-                <div className="inline-flex items-center bg-gradient-to-r from-blue-100 to-indigo-100 text-blue-800 px-6 py-3 rounded-full text-sm font-semibold mb-8 uppercase tracking-wider">
-                  <div className="w-2 h-2 bg-blue-600 rounded-full mr-3"></div>
-                  About R&M Groups
-                </div>
-                
-                <h2 className="text-5xl md:text-6xl font-black text-slate-900 mb-8 leading-tight">
-                  Your Trusted
-                  <span className="block bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">
-                    Travel Partner
-                  </span>
-                </h2>
-                
                 <div className="bg-white p-8 rounded-3xl shadow-lg border border-slate-100 mb-10">
-                  <p className="text-lg text-slate-700 leading-relaxed italic">
+                  <h3 className="text-2xl font-bold text-slate-900 mb-6">Our Story</h3>
+                  <p className="text-lg text-slate-700 leading-relaxed mb-6">
                     "{COMPANY_DETAILS.about}"
                   </p>
+                  <div className="bg-blue-50 p-6 rounded-2xl">
+                    <h4 className="font-bold text-blue-900 mb-3">Our Mission</h4>
+                    <p className="text-blue-800 text-sm leading-relaxed">
+                      To redefine mobility and travel excellence through integrity, reliability, and world-class service, making premium travel accessible and seamless for every client.
+                    </p>
+                  </div>
                 </div>
                 
                 <div className="grid grid-cols-3 gap-8">
                   <div className="text-center group">
-                    <div className="bg-gradient-to-br from-blue-600 to-indigo-600 text-white p-4 rounded-2xl mb-4 group-hover:scale-110 transition-transform duration-300">
-                      <div className="text-3xl font-black">100%</div>
+                    <div className="bg-gradient-to-br from-blue-600 to-indigo-600 text-white p-6 rounded-2xl mb-4 group-hover:scale-110 transition-transform duration-300">
+                      <div className="text-3xl font-black">500+</div>
+                      <div className="text-xs opacity-90">CLIENTS</div>
                     </div>
-                    <p className="text-sm text-slate-600 uppercase font-semibold tracking-wider">Reliability</p>
+                    <p className="text-sm text-slate-600 uppercase font-semibold tracking-wider">Happy Travelers</p>
                   </div>
                   
                   <div className="text-center group">
-                    <div className="bg-gradient-to-br from-indigo-600 to-purple-600 text-white p-4 rounded-2xl mb-4 group-hover:scale-110 transition-transform duration-300">
+                    <div className="bg-gradient-to-br from-indigo-600 to-purple-600 text-white p-6 rounded-2xl mb-4 group-hover:scale-110 transition-transform duration-300">
                       <div className="text-3xl font-black">24/7</div>
+                      <div className="text-xs opacity-90">HOURS</div>
                     </div>
-                    <p className="text-sm text-slate-600 uppercase font-semibold tracking-wider">Support</p>
+                    <p className="text-sm text-slate-600 uppercase font-semibold tracking-wider">Support Available</p>
                   </div>
                   
                   <div className="text-center group">
-                    <div className="bg-gradient-to-br from-purple-600 to-pink-600 text-white p-4 rounded-2xl mb-4 group-hover:scale-110 transition-transform duration-300">
-                      <div className="text-3xl font-black">Elite</div>
+                    <div className="bg-gradient-to-br from-purple-600 to-pink-600 text-white p-6 rounded-2xl mb-4 group-hover:scale-110 transition-transform duration-300">
+                      <div className="text-3xl font-black">50+</div>
+                      <div className="text-xs opacity-90">DESTINATIONS</div>
                     </div>
-                    <p className="text-sm text-slate-600 uppercase font-semibold tracking-wider">Partnerships</p>
+                    <p className="text-sm text-slate-600 uppercase font-semibold tracking-wider">Global Reach</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Our Values */}
+            <div className="bg-white rounded-3xl p-12 shadow-lg border border-slate-100">
+              <div className="text-center mb-12">
+                <h3 className="text-3xl font-bold text-slate-900 mb-4">Our Core Values</h3>
+                <p className="text-slate-600 max-w-2xl mx-auto">
+                  The principles that guide everything we do and define who we are as a company.
+                </p>
+              </div>
+              
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div className="text-center group">
+                  <div className="bg-gradient-to-br from-blue-100 to-indigo-100 p-6 rounded-2xl mb-6 group-hover:from-blue-200 group-hover:to-indigo-200 transition-all duration-300">
+                    <div className="bg-gradient-to-br from-blue-600 to-indigo-600 w-16 h-16 rounded-2xl flex items-center justify-center mx-auto mb-4">
+                      <Icons.Heart className="text-white" size={32} />
+                    </div>
+                    <h4 className="text-xl font-bold text-slate-900 mb-3">Excellence</h4>
+                    <p className="text-slate-600 text-sm leading-relaxed">
+                      We strive for perfection in every service we provide, ensuring exceptional quality and attention to detail.
+                    </p>
+                  </div>
+                </div>
+                
+                <div className="text-center group">
+                  <div className="bg-gradient-to-br from-green-100 to-emerald-100 p-6 rounded-2xl mb-6 group-hover:from-green-200 group-hover:to-emerald-200 transition-all duration-300">
+                    <div className="bg-gradient-to-br from-green-600 to-emerald-600 w-16 h-16 rounded-2xl flex items-center justify-center mx-auto mb-4">
+                      <Icons.Shield className="text-white" size={32} />
+                    </div>
+                    <h4 className="text-xl font-bold text-slate-900 mb-3">Integrity</h4>
+                    <p className="text-slate-600 text-sm leading-relaxed">
+                      Transparency, honesty, and ethical practices form the foundation of all our client relationships.
+                    </p>
+                  </div>
+                </div>
+                
+                <div className="text-center group">
+                  <div className="bg-gradient-to-br from-purple-100 to-pink-100 p-6 rounded-2xl mb-6 group-hover:from-purple-200 group-hover:to-pink-200 transition-all duration-300">
+                    <div className="bg-gradient-to-br from-purple-600 to-pink-600 w-16 h-16 rounded-2xl flex items-center justify-center mx-auto mb-4">
+                      <Icons.Users className="text-white" size={32} />
+                    </div>
+                    <h4 className="text-xl font-bold text-slate-900 mb-3">Partnership</h4>
+                    <p className="text-slate-600 text-sm leading-relaxed">
+                      We build lasting relationships with our clients, understanding their unique needs and exceeding expectations.
+                    </p>
                   </div>
                 </div>
               </div>
@@ -476,14 +544,20 @@ const App: React.FC = () => {
                   </button>
                 </li>
                 <li>
-                  <a href="#" className="text-slate-300 hover:text-blue-400 transition-colors duration-300">
-                    Privacy Policy
-                  </a>
+                  <button 
+                    onClick={() => setShowTerms(true)}
+                    className="text-slate-300 hover:text-blue-400 transition-colors duration-300 text-left"
+                  >
+                    Terms & Conditions
+                  </button>
                 </li>
                 <li>
-                  <a href="#" className="text-slate-300 hover:text-blue-400 transition-colors duration-300">
-                    Terms of Service
-                  </a>
+                  <button 
+                    onClick={() => setShowCookiePolicy(true)}
+                    className="text-slate-300 hover:text-blue-400 transition-colors duration-300 text-left"
+                  >
+                    Cookie Policy
+                  </button>
                 </li>
               </ul>
             </div>
@@ -537,6 +611,11 @@ const App: React.FC = () => {
       </footer>
 
       <ChatBot />
+      <CookieBanner />
+      
+      {/* Modal Components */}
+      <TermsAndConditions isOpen={showTerms} onClose={() => setShowTerms(false)} />
+      <CookiePolicy isOpen={showCookiePolicy} onClose={() => setShowCookiePolicy(false)} />
     </div>
   );
 };

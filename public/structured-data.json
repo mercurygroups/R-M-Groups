@@ -1,0 +1,137 @@
+{
+  "@context": "https://schema.org",
+  "@type": "TravelAgency",
+  "name": "R&M Groups",
+  "alternateName": "R&M Groups Premium Travel & Logistics",
+  "description": "Premium travel and logistics solutions provider offering flight booking, visa assistance, luxury car rentals, private jet services, and urban delivery across Nigeria.",
+  "url": "https://r-m-groups.vercel.app",
+  "logo": "https://r-m-groups.vercel.app/images/professional-hero.svg",
+  "image": "https://r-m-groups.vercel.app/images/luxury-business.svg",
+  "telephone": "+234 901 190 2882",
+  "email": "mercurygroups247@gmail.com",
+  "address": {
+    "@type": "PostalAddress",
+    "addressCountry": "Nigeria",
+    "addressRegion": "Lagos, Port Harcourt, Abuja"
+  },
+  "areaServed": [
+    {
+      "@type": "City",
+      "name": "Lagos",
+      "addressCountry": "Nigeria"
+    },
+    {
+      "@type": "City", 
+      "name": "Port Harcourt",
+      "addressCountry": "Nigeria"
+    },
+    {
+      "@type": "City",
+      "name": "Abuja", 
+      "addressCountry": "Nigeria"
+    }
+  ],
+  "serviceType": [
+    "Flight Booking",
+    "Visa Processing", 
+    "Travel Insurance",
+    "Passport Services",
+    "Private Jet Rental",
+    "Luxury Car Rental",
+    "Urban Delivery Services",
+    "Travel Consultation"
+  ],
+  "hasOfferCatalog": {
+    "@type": "OfferCatalog",
+    "name": "Travel & Logistics Services",
+    "itemListElement": [
+      {
+        "@type": "Offer",
+        "itemOffered": {
+          "@type": "Service",
+          "name": "Flight Bookings",
+          "description": "Seamless processing of domestic and international flight tickets with competitive pricing and 24/7 support."
+        }
+      },
+      {
+        "@type": "Offer", 
+        "itemOffered": {
+          "@type": "Service",
+          "name": "Passport Processing",
+          "description": "Expert guidance and assistance through the Nigerian passport application and renewal process."
+        }
+      },
+      {
+        "@type": "Offer",
+        "itemOffered": {
+          "@type": "Service", 
+          "name": "Travel Insurance",
+          "description": "Comprehensive travel insurance policies to protect you against unforeseen events during your journeys."
+        }
+      },
+      {
+        "@type": "Offer",
+        "itemOffered": {
+          "@type": "Service",
+          "name": "Visa Assistance", 
+          "description": "Specialized visa processing for tours, conferences, and business travel worldwide."
+        }
+      },
+      {
+        "@type": "Offer",
+        "itemOffered": {
+          "@type": "Service",
+          "name": "Private Jet Rental",
+          "description": "Elite private jet charter services for high-profile business or leisure travel across Africa and beyond."
+        }
+      },
+      {
+        "@type": "Offer",
+        "itemOffered": {
+          "@type": "Service", 
+          "name": "Luxury Vehicle Rental",
+          "description": "Interstate rental of premium cars and luxury buses across Nigeria for group tours or corporate events."
+        }
+      },
+      {
+        "@type": "Offer",
+        "itemOffered": {
+          "@type": "Service",
+          "name": "Urban Logistics",
+          "description": "Swift delivery bike services for goods in Lagos, Port Harcourt, and Abuja. Reliable and efficient."
+        }
+      }
+    ]
+  },
+  "contactPoint": {
+    "@type": "ContactPoint",
+    "telephone": "+234 901 190 2882",
+    "contactType": "customer service",
+    "availableLanguage": "English",
+    "hoursAvailable": {
+      "@type": "OpeningHoursSpecification",
+      "dayOfWeek": [
+        "Monday",
+        "Tuesday", 
+        "Wednesday",
+        "Thursday",
+        "Friday"
+      ],
+      "opens": "08:00",
+      "closes": "18:00"
+    }
+  },
+  "sameAs": [
+    "https://wa.me/2349011902882"
+  ],
+  "aggregateRating": {
+    "@type": "AggregateRating",
+    "ratingValue": "4.8",
+    "reviewCount": "500",
+    "bestRating": "5",
+    "worstRating": "1"
+  },
+  "priceRange": "$$-$$$",
+  "paymentAccepted": "Cash, Credit Card, Bank Transfer",
+  "currenciesAccepted": "NGN, USD, EUR, GBP"
+}
