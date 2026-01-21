@@ -10,11 +10,11 @@
     "init-db": "node scripts/init-database.js"
   },
   "dependencies": {
-    "react": "^19.2.3",
-    "react-dom": "^19.2.3",
-    "lucide-react": "^0.562.0",
     "@google/genai": "^1.37.0",
-    "@neondatabase/serverless": "^0.10.1"
+    "@neondatabase/serverless": "^0.10.4",
+    "lucide-react": "^0.562.0",
+    "react": "^19.2.3",
+    "react-dom": "^19.2.3"
   },
   "devDependencies": {
     "@types/node": "^22.14.0",
