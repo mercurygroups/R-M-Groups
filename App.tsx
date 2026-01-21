@@ -7,6 +7,7 @@ import ChatBot from './components/ChatBot';
 import TermsAndConditions from './components/TermsAndConditions';
 import CookiePolicy from './components/CookiePolicy';
 import CookieBanner from './components/CookieBanner';
+import SEOFAQSection from './components/SEOFAQSection';
 import { SERVICES, COMPANY_DETAILS } from './constants';
 import { Mail, Phone, MapPin, CheckCircle2, Globe, Shield, Zap, ExternalLink } from 'lucide-react';
 import * as Icons from 'lucide-react';
@@ -44,14 +45,14 @@ const App: React.FC = () => {
               </div>
               
               <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-black mb-6 sm:mb-8 leading-[0.9] tracking-tight">
-                Your Gateway to
+                Nigeria's Premier
                 <span className="block bg-gradient-to-r from-blue-400 via-cyan-400 to-indigo-400 bg-clip-text text-transparent">
-                  Elite Travel
+                  Travel Company
                 </span>
               </h1>
               
               <p className="text-lg sm:text-xl md:text-2xl text-slate-200 mb-8 sm:mb-12 leading-relaxed font-light max-w-3xl">
-                Experience world-class travel management with R&M Groups. From international flights to luxury ground transport, we deliver seamless solutions across Nigeria and beyond.
+                Expert flight booking, visa processing, luxury car rentals, and private jet charters across Lagos, Port Harcourt, and Abuja. Professional travel solutions with guaranteed excellence and 24/7 support.
               </p>
               
               <div className="hero-buttons flex flex-col sm:flex-row gap-4 sm:gap-6 max-w-2xl">
@@ -156,17 +157,37 @@ const App: React.FC = () => {
             <div className="text-center mb-20">
               <div className="inline-flex items-center bg-gradient-to-r from-blue-100 to-indigo-100 text-blue-800 px-6 py-3 rounded-full text-sm font-semibold mb-6 uppercase tracking-wider">
                 <div className="w-2 h-2 bg-blue-600 rounded-full mr-3"></div>
-                Our Services
+                Premium Travel Services
               </div>
               <h2 className="text-5xl md:text-6xl font-black text-slate-900 mb-8 leading-tight">
                 Comprehensive Travel
                 <span className="block bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">
-                  Solutions
+                  Solutions in Nigeria
                 </span>
               </h2>
-              <p className="text-xl text-slate-600 max-w-3xl mx-auto leading-relaxed">
-                From international flights to luxury ground transport, we handle every aspect of your travel needs with precision and care.
+              <p className="text-xl text-slate-600 max-w-4xl mx-auto leading-relaxed mb-12">
+                From international flight bookings and visa processing to luxury car rentals and private jet charters, R&M Groups delivers professional travel services across Lagos, Port Harcourt, and Abuja with guaranteed excellence and 24/7 support.
               </p>
+              
+              {/* SEO-focused service highlights */}
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-6 max-w-4xl mx-auto mb-16">
+                <div className="bg-blue-50 p-4 rounded-2xl">
+                  <div className="text-2xl font-bold text-blue-600 mb-1">500+</div>
+                  <div className="text-sm text-slate-600">International Flights Booked</div>
+                </div>
+                <div className="bg-indigo-50 p-4 rounded-2xl">
+                  <div className="text-2xl font-bold text-indigo-600 mb-1">95%</div>
+                  <div className="text-sm text-slate-600">Visa Approval Rate</div>
+                </div>
+                <div className="bg-purple-50 p-4 rounded-2xl">
+                  <div className="text-2xl font-bold text-purple-600 mb-1">24/7</div>
+                  <div className="text-sm text-slate-600">Customer Support</div>
+                </div>
+                <div className="bg-pink-50 p-4 rounded-2xl">
+                  <div className="text-2xl font-bold text-pink-600 mb-1">3</div>
+                  <div className="text-sm text-slate-600">Major Nigerian Cities</div>
+                </div>
+              </div>
             </div>
             
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
@@ -177,13 +198,19 @@ const App: React.FC = () => {
             
             {/* Call to action */}
             <div className="text-center mt-20">
-              <button 
-                onClick={() => document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' })}
-                className="group bg-gradient-to-r from-blue-600 to-indigo-600 text-white px-12 py-6 rounded-2xl font-bold text-lg hover:from-blue-700 hover:to-indigo-700 transition-all duration-300 shadow-2xl hover:shadow-blue-500/25 active:scale-95 relative overflow-hidden"
-              >
-                <span className="relative z-10">Get Custom Quote</span>
-                <div className="absolute inset-0 bg-white opacity-0 group-hover:opacity-10 transition-opacity duration-300"></div>
-              </button>
+              <div className="bg-gradient-to-r from-blue-600 to-indigo-600 text-white p-12 rounded-3xl">
+                <h3 className="text-3xl font-bold mb-4">Ready to Experience Premium Travel Services?</h3>
+                <p className="text-blue-100 mb-8 text-lg max-w-2xl mx-auto">
+                  Join hundreds of satisfied clients who trust R&M Groups for their travel needs across Nigeria and beyond.
+                </p>
+                <button 
+                  onClick={() => document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' })}
+                  className="group bg-white text-blue-600 px-12 py-6 rounded-2xl font-bold text-lg hover:bg-blue-50 transition-all duration-300 shadow-2xl active:scale-95 relative overflow-hidden"
+                >
+                  <span className="relative z-10">Get Your Custom Travel Quote</span>
+                  <div className="absolute inset-0 bg-gradient-to-r from-blue-600 to-indigo-600 opacity-0 group-hover:opacity-10 transition-opacity duration-300"></div>
+                </button>
+              </div>
             </div>
           </div>
         </section>
@@ -394,6 +421,9 @@ const App: React.FC = () => {
             </div>
           </div>
         </section>
+
+        {/* SEO FAQ Section */}
+        <SEOFAQSection />
 
         {/* Contact Section */}
         <section id="contact" className="py-32 bg-white relative overflow-hidden">
