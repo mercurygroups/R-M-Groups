@@ -31,17 +31,27 @@ GEMINI_API_KEY=your_gemini_api_key_here
 VITE_GOOGLE_CLIENT_ID=your_google_client_id.googleusercontent.com
 ```
 
-### 5. Google OAuth Setup (Optional)
+### 5. Google OAuth Setup
 To enable Google authentication:
 
 1. Go to the [Google Cloud Console](https://console.cloud.google.com/)
 2. Create a new project or select an existing one
-3. Enable the Google+ API
+3. Enable the Google+ API (or Google Identity Services)
 4. Go to "Credentials" and create an OAuth 2.0 Client ID
-5. Add your domain to authorized origins:
-   - For development: `http://localhost:5173`
-   - For production: `https://your-domain.com`
-6. Copy the Client ID and add it to your `.env.local` file
+5. Configure the OAuth consent screen
+6. Add your domains to authorized origins:
+   
+   **Authorized JavaScript Origins:**
+   - For development: `http://localhost:3000` and `http://localhost:3001`
+   - For production: `https://r-m-groups.vercel.app`
+   
+   **Authorized Redirect URIs:**
+   - For development: `http://localhost:3000` and `http://localhost:3001`
+   - For production: `https://r-m-groups.vercel.app`
+
+7. Copy the Client ID and replace `your_actual_google_client_id.apps.googleusercontent.com` in your `.env.local` file
+
+**Note:** It may take 5 minutes to a few hours for Google OAuth settings to take effect.
 
 ### 6. Database Setup
 

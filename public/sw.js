@@ -26,13 +26,9 @@ const STATIC_ASSETS = [
   '/images/luxury-business.svg'
 ];
 
-// External resources to cache
+// External resources to cache (removed CORS-problematic resources)
 const EXTERNAL_RESOURCES = [
-  'https://cdn.tailwindcss.com',
-  'https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap',
-  'https://esm.sh/react@^19.2.3',
-  'https://esm.sh/react-dom@^19.2.3',
-  'https://esm.sh/lucide-react@^0.562.0'
+  'https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap'
 ];
 
 // Install event - cache static assets
@@ -46,10 +42,17 @@ self.addEventListener('install', (event) => {
         console.log('[SW] Caching static assets...');
         return cache.addAll(STATIC_ASSETS);
       }),
-      // Cache external resources
+      // Cache external resources (with better error handling)
       caches.open(DYNAMIC_CACHE_NAME).then((cache) => {
         console.log('[SW] Caching external resources...');
-        return cache.addAll(EXTERNAL_RESOURCES.map(url => new Request(url, { mode: 'cors' })));
+        return Promise.allSettled(
+          EXTERNAL_RESOURCES.map(url => 
+            cache.add(new Request(url, { mode: 'cors' })).catch(err => {
+              console.log('[SW] Failed to cache:', url, err);
+              return null;
+            })
+          )
+        );
       })
     ]).then(() => {
       console.log('[SW] All assets cached successfully');

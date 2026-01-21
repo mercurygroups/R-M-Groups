@@ -239,7 +239,98 @@ class DatabaseService {
     }
   }
 
-  // User login
+  // Google OAuth login/registration
+  async loginWithGoogle(googleData: {
+    email: string;
+    firstName: string;
+    lastName: string;
+    googleId: string;
+    isVerified: boolean;
+  }): Promise<AuthResponse> {
+    try {
+      // First, try to find existing user by email
+      const existingUser = await sql`
+        SELECT id, email, password_hash, first_name, last_name, phone, 
+               loyalty_points, membership_tier, is_verified, created_at, preferred_services
+        FROM users 
+        WHERE email = ${googleData.email}
+      `;
+
+      let user: User;
+      let isNewUser = false;
+
+      if (existingUser && existingUser.length > 0) {
+        // User exists, update their info and mark as verified
+        await sql`
+          UPDATE users 
+          SET is_verified = TRUE, 
+              first_name = ${googleData.firstName},
+              last_name = ${googleData.lastName},
+              last_login_at = CURRENT_TIMESTAMP,
+              updated_at = CURRENT_TIMESTAMP
+          WHERE email = ${googleData.email}
+        `;
+        
+        user = this.mapUserFromDb({
+          ...existingUser[0],
+          first_name: googleData.firstName,
+          last_name: googleData.lastName,
+          is_verified: true
+        });
+      } else {
+        // Create new user with Google data
+        const newUserResult = await sql`
+          INSERT INTO users (email, password_hash, first_name, last_name, is_verified)
+          VALUES (${googleData.email}, ${'google_oauth_' + googleData.googleId}, ${googleData.firstName}, ${googleData.lastName}, TRUE)
+          RETURNING id, email, first_name, last_name, phone, loyalty_points, membership_tier, is_verified, created_at
+        `;
+
+        if (!newUserResult || newUserResult.length === 0) {
+          return {
+            success: false,
+            message: 'Failed to create Google account'
+          };
+        }
+
+        user = this.mapUserFromDb(newUserResult[0]);
+        isNewUser = true;
+      }
+
+      const token = await this.generateJWT(user.id);
+
+      // Cache the session
+      this.setCachedSession(user.id, user, token);
+
+      // Store session in database
+      await this.storeSession(user.id, token);
+
+      // Track Google login
+      if (typeof window !== 'undefined' && window.gtag) {
+        trackEvent(isNewUser ? 'google_signup' : 'google_login', 'Authentication', 'Google OAuth');
+      }
+
+      return {
+        success: true,
+        user,
+        token,
+        message: isNewUser ? 'Google account created successfully' : 'Google login successful'
+      };
+    } catch (error: any) {
+      console.error('Google login error:', error);
+      
+      if (error.message.includes('duplicate key') || error.message.includes('unique constraint')) {
+        return {
+          success: false,
+          message: 'Email already exists with different login method'
+        };
+      }
+
+      return {
+        success: false,
+        message: 'Google authentication failed. Please try again.'
+      };
+    }
+  }
   async loginUser(email: string, password: string): Promise<AuthResponse> {
     try {
       const result = await sql`

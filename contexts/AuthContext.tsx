@@ -155,26 +155,14 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     try {
       setIsLoading(true);
       
-      // Check if user exists with this email
-      let response = await databaseService.loginUser(googleData.email, 'google_oauth');
-      
-      if (!response.success) {
-        // User doesn't exist, create new account
-        response = await databaseService.registerUser({
-          email: googleData.email,
-          password: 'google_oauth', // Special password for Google users
-          firstName: googleData.firstName,
-          lastName: googleData.lastName,
-          phone: undefined
-        });
-        
-        if (response.success && response.user) {
-          // Update user as verified since Google email is verified
-          await databaseService.updateUserProfile(response.user.id, { 
-            isVerified: true 
-          });
-        }
-      }
+      // Use the database service's Google login method
+      const response = await databaseService.loginWithGoogle({
+        email: googleData.email,
+        firstName: googleData.firstName,
+        lastName: googleData.lastName,
+        googleId: googleData.googleId,
+        isVerified: googleData.isVerified
+      });
 
       if (response.success && response.user && response.token) {
         setUser(response.user);
@@ -184,6 +172,11 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         // Track successful Google login
         if (typeof window !== 'undefined' && window.gtag) {
           trackEvent('user_google_login_success', 'Authentication', 'Google Login Success');
+        }
+      } else {
+        // Track failed Google login
+        if (typeof window !== 'undefined' && window.gtag) {
+          trackEvent('user_google_login_failed', 'Authentication', 'Google Login Failed');
         }
       }
 

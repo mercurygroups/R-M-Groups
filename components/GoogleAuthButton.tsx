@@ -22,37 +22,59 @@ const GoogleAuthButton: React.FC<GoogleAuthButtonProps> = ({
 }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [isGoogleLoaded, setIsGoogleLoaded] = useState(false);
+  const [debugInfo, setDebugInfo] = useState<string>('');
   const { loginWithGoogle } = useAuth();
 
   useEffect(() => {
+    // Debug: Log the client ID
+    const clientId = import.meta.env.VITE_GOOGLE_CLIENT_ID;
+    console.log('Google Client ID:', clientId);
+    setDebugInfo(`Client ID: ${clientId ? 'Set' : 'Missing'}`);
+
     // Load Google Identity Services
     const loadGoogleScript = () => {
       if (window.google) {
+        console.log('Google already loaded');
         initializeGoogle();
         return;
       }
 
+      console.log('Loading Google Identity Services...');
       const script = document.createElement('script');
       script.src = 'https://accounts.google.com/gsi/client';
       script.async = true;
       script.defer = true;
-      script.onload = initializeGoogle;
-      script.onerror = () => {
-        console.error('Failed to load Google Identity Services');
-        onError('Failed to load Google authentication');
+      script.onload = () => {
+        console.log('Google script loaded successfully');
+        initializeGoogle();
+      };
+      script.onerror = (error) => {
+        console.error('Failed to load Google Identity Services:', error);
+        onError('Failed to load Google authentication. Please check your internet connection.');
       };
       document.head.appendChild(script);
     };
 
     const initializeGoogle = () => {
-      if (window.google) {
-        window.google.accounts.id.initialize({
-          client_id: import.meta.env.VITE_GOOGLE_CLIENT_ID || 'your-google-client-id.googleusercontent.com',
-          callback: handleGoogleResponse,
-          auto_select: false,
-          cancel_on_tap_outside: true,
-        });
-        setIsGoogleLoaded(true);
+      if (window.google && window.google.accounts) {
+        console.log('Initializing Google OAuth...');
+        try {
+          window.google.accounts.id.initialize({
+            client_id: clientId,
+            callback: handleGoogleResponse,
+            auto_select: false,
+            cancel_on_tap_outside: true,
+          });
+          setIsGoogleLoaded(true);
+          setDebugInfo('Google OAuth initialized successfully');
+          console.log('Google OAuth initialized successfully');
+        } catch (error) {
+          console.error('Google initialization error:', error);
+          onError('Failed to initialize Google authentication');
+        }
+      } else {
+        console.error('Google accounts not available');
+        onError('Google authentication service not available');
       }
     };
 
@@ -68,12 +90,14 @@ const GoogleAuthButton: React.FC<GoogleAuthButtonProps> = ({
   }, []);
 
   const handleGoogleResponse = async (response: any) => {
+    console.log('Google response received:', response);
     setIsLoading(true);
     
     try {
       if (response.credential) {
         // Decode the JWT token to get user info
         const payload = JSON.parse(atob(response.credential.split('.')[1]));
+        console.log('Google user payload:', payload);
         
         const userData = {
           email: payload.email,
@@ -84,25 +108,28 @@ const GoogleAuthButton: React.FC<GoogleAuthButtonProps> = ({
           isVerified: payload.email_verified
         };
 
+        console.log('Processed user data:', userData);
+
         // Use the auth context to handle Google login
         if (loginWithGoogle) {
           const result = await loginWithGoogle(userData);
+          console.log('Login result:', result);
           if (result.success) {
             onSuccess();
           } else {
             onError(result.message || 'Google authentication failed');
           }
         } else {
-          // Fallback: create account with Google data
-          console.log('Google user data:', userData);
-          onSuccess();
+          console.error('loginWithGoogle function not available');
+          onError('Authentication service not available');
         }
       } else {
+        console.error('No credential received from Google');
         onError('No credential received from Google');
       }
     } catch (error) {
       console.error('Google authentication error:', error);
-      onError('Google authentication failed');
+      onError('Google authentication failed: ' + (error as Error).message);
     } finally {
       setIsLoading(false);
     }
@@ -110,33 +137,57 @@ const GoogleAuthButton: React.FC<GoogleAuthButtonProps> = ({
 
   const handleGoogleLogin = () => {
     if (!isGoogleLoaded) {
-      onError('Google authentication is not ready');
+      onError('Google authentication is not ready. Please wait and try again.');
       return;
     }
 
+    console.log('Initiating Google login...');
     setIsLoading(true);
     
     try {
+      // Try to show the One Tap prompt first
       window.google.accounts.id.prompt((notification: any) => {
+        console.log('Google prompt notification:', notification);
+        
         if (notification.isNotDisplayed() || notification.isSkippedMoment()) {
-          // Fallback to popup
-          window.google.accounts.id.renderButton(
-            document.getElementById('google-signin-button'),
-            {
-              theme: 'outline',
-              size: 'large',
-              width: '100%',
-              text: 'continue_with',
-              shape: 'rectangular',
+          console.log('One Tap not displayed, falling back to popup');
+          // Fallback to popup method
+          try {
+            window.google.accounts.id.renderButton(
+              document.getElementById('google-signin-button'),
+              {
+                theme: 'outline',
+                size: 'large',
+                width: 300,
+                text: 'continue_with',
+                shape: 'rectangular',
+              }
+            );
+            // Make the hidden button visible temporarily
+            const hiddenButton = document.getElementById('google-signin-button');
+            if (hiddenButton) {
+              hiddenButton.style.display = 'block';
+              hiddenButton.style.position = 'absolute';
+              hiddenButton.style.top = '-9999px';
+              // Trigger click on the Google button
+              setTimeout(() => {
+                const googleButton = hiddenButton.querySelector('div[role="button"]') as HTMLElement;
+                if (googleButton) {
+                  googleButton.click();
+                }
+              }, 100);
             }
-          );
+          } catch (renderError) {
+            console.error('Button render error:', renderError);
+            onError('Failed to show Google login button');
+          }
         }
         setIsLoading(false);
       });
     } catch (error) {
       console.error('Google prompt error:', error);
       setIsLoading(false);
-      onError('Failed to show Google login');
+      onError('Failed to show Google login: ' + (error as Error).message);
     }
   };
 
@@ -171,6 +222,13 @@ const GoogleAuthButton: React.FC<GoogleAuthButtonProps> = ({
         )}
         <span>{isLoading ? 'Connecting...' : text}</span>
       </button>
+      
+      {/* Debug info in development */}
+      {import.meta.env.DEV && (
+        <div className="mt-2 text-xs text-slate-500">
+          Debug: {debugInfo}
+        </div>
+      )}
       
       {/* Hidden div for Google button rendering */}
       <div id="google-signin-button" className="hidden"></div>

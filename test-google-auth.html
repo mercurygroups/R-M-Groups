@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Google OAuth Test</title>
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
+</head>
+<body>
+    <h1>Google OAuth Test</h1>
+    <div id="buttonDiv"></div>
+    <div id="output"></div>
+
+    <script>
+        window.onload = function () {
+            const clientId = '732704624254-vkphn66v68maaccm4h4s1ia5av1f1l2l.apps.googleusercontent.com';
+            
+            console.log('Testing Google OAuth with Client ID:', clientId);
+            
+            if (window.google) {
+                console.log('Google loaded successfully');
+                
+                google.accounts.id.initialize({
+                    client_id: clientId,
+                    callback: handleCredentialResponse
+                });
+                
+                google.accounts.id.renderButton(
+                    document.getElementById("buttonDiv"),
+                    { theme: "outline", size: "large" }
+                );
+                
+                google.accounts.id.prompt();
+            } else {
+                console.error('Google not loaded');
+                document.getElementById('output').innerHTML = 'Google not loaded';
+            }
+        }
+
+        function handleCredentialResponse(response) {
+            console.log("Encoded JWT ID token: " + response.credential);
+            
+            // Decode the JWT token
+            const payload = JSON.parse(atob(response.credential.split('.')[1]));
+            console.log('Decoded payload:', payload);
+            
+            document.getElementById('output').innerHTML = `
+                <h2>Success!</h2>
+                <p><strong>Email:</strong> ${payload.email}</p>
+                <p><strong>Name:</strong> ${payload.given_name} ${payload.family_name}</p>
+                <p><strong>Picture:</strong> <img src="${payload.picture}" width="50" height="50"></p>
+                <p><strong>Verified:</strong> ${payload.email_verified}</p>
+            `;
+        }
+    </script>
+</body>
+</html>
