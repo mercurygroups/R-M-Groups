@@ -188,7 +188,7 @@ const CookiePolicy: React.FC<CookiePolicyProps> = ({ isOpen, onClose }) => {
 
             <div className="bg-orange-50 p-4 rounded-2xl mt-8">
               <p className="text-orange-800 text-sm">
-                <strong>Last Updated:</strong> January 2024<br />
+                <strong>Last Updated:</strong> January 2026<br />
                 This Cookie Policy is effective as of the date listed above and will remain in effect except with respect to any changes in its provisions in the future.
               </p>
             </div>

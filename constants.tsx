@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { Plane, Passport, ShieldCheck, FileText, Anchor, Car, Bike, Info } from 'lucide-react';
+import { Plane, FileCheck, ShieldCheck, FileText, Anchor, Car, Bike, Info } from 'lucide-react';
 import { Service, ServiceType } from './types';
 
 export const SERVICES: Service[] = [
@@ -9,15 +9,15 @@ export const SERVICES: Service[] = [
     title: 'Flight Bookings',
     description: 'Seamless processing of domestic and international flight tickets with competitive pricing and 24/7 support.',
     icon: 'Plane',
-    image: '/images/flight-booking.svg',
+    image: 'https://images.unsplash.com/photo-1464207687429-7505649dae38?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2074&q=80',
     type: ServiceType.FLIGHTS
   },
   {
     id: '2',
     title: 'Passport Processing',
     description: 'Expert guidance and assistance through the Nigerian passport application and renewal process.',
-    icon: 'Passport',
-    image: '/images/passport-processing.svg',
+    icon: 'FileCheck',
+    image: 'https://images.unsplash.com/photo-1544027993-37dbfe43562a?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80',
     type: ServiceType.PASSPORT
   },
   {
@@ -25,7 +25,7 @@ export const SERVICES: Service[] = [
     title: 'Travel Insurance',
     description: 'Comprehensive travel insurance policies to protect you against unforeseen events during your journeys.',
     icon: 'ShieldCheck',
-    image: '/images/travel-insurance.svg',
+    image: 'https://images.unsplash.com/photo-1454165833767-027ff33027ef?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80',
     type: ServiceType.INSURANCE
   },
   {
@@ -33,7 +33,7 @@ export const SERVICES: Service[] = [
     title: 'Visa Assistance',
     description: 'Specialized visa processing for tours, conferences, and business travel worldwide.',
     icon: 'FileText',
-    image: '/images/visa-assistance.svg',
+    image: 'https://images.unsplash.com/photo-1554224155-1696413565d3?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80',
     type: ServiceType.VISA
   },
   {
@@ -41,7 +41,7 @@ export const SERVICES: Service[] = [
     title: 'Private Jet Rental',
     description: 'Elite private jet charter services for high-profile business or leisure travel across Africa and beyond.',
     icon: 'Plane',
-    image: '/images/private-jet.svg',
+    image: 'https://images.unsplash.com/photo-1540962351504-03099e0a754b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80',
     type: ServiceType.JET_RENTAL
   },
   {
@@ -49,7 +49,7 @@ export const SERVICES: Service[] = [
     title: 'Luxury Vehicle Rental',
     description: 'Interstate rental of premium cars and luxury buses across Nigeria for group tours or corporate events.',
     icon: 'Car',
-    image: '/images/luxury-car.svg',
+    image: 'https://images.unsplash.com/photo-1449824913935-59a10b8d2000?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80',
     type: ServiceType.LUXURY_CAR
   },
   {
@@ -57,7 +57,7 @@ export const SERVICES: Service[] = [
     title: 'Urban Logistics',
     description: 'Swift delivery bike services for goods in Lagos, Port Harcourt, and Abuja. Reliable and efficient.',
     icon: 'Bike',
-    image: '/images/urban-delivery.svg',
+    image: 'https://images.unsplash.com/photo-1558981403-c5f97dbbe480?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80',
     type: ServiceType.DELIVERY
   }
 ];

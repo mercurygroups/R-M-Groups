@@ -24,7 +24,7 @@ const App: React.FC = () => {
         <section id="home" className="relative min-h-screen flex items-center overflow-hidden">
           <div className="absolute inset-0 z-0">
             <img 
-              src="/images/professional-hero.svg" 
+              src="https://images.unsplash.com/photo-1436491865332-7a61a109c0f3?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2074&q=80" 
               alt="Professional Travel Services" 
               className="w-full h-full object-cover"
             />
@@ -240,7 +240,7 @@ const App: React.FC = () => {
               <div className="lg:w-1/2 relative">
                 <div className="relative z-10 rounded-3xl overflow-hidden shadow-2xl group">
                   <img 
-                    src="/images/luxury-business.svg" 
+                    src="https://images.unsplash.com/photo-1497215728101-856f4ea42174?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80" 
                     alt="Corporate Excellence" 
                     className="w-full h-auto group-hover:scale-105 transition-transform duration-700"
                   />
@@ -282,7 +282,7 @@ const App: React.FC = () => {
                 <div className="grid grid-cols-2 gap-6">
                   <div className="space-y-6">
                     <div className="group relative overflow-hidden rounded-3xl shadow-lg hover:shadow-2xl transition-all duration-500">
-                      <img src="/images/team-office.svg" className="w-full h-72 object-cover group-hover:scale-110 transition-transform duration-700" alt="Professional Team" />
+                      <img src="https://images.unsplash.com/photo-1577412647305-991150c7d163?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80" className="w-full h-72 object-cover group-hover:scale-110 transition-transform duration-700" alt="Professional Team" />
                       <div className="absolute inset-0 bg-gradient-to-t from-slate-900/50 to-transparent"></div>
                       <div className="absolute bottom-4 left-4 text-white">
                         <h4 className="font-bold text-lg">Expert Team</h4>
@@ -292,7 +292,7 @@ const App: React.FC = () => {
                   </div>
                   <div className="space-y-6 mt-12">
                     <div className="group relative overflow-hidden rounded-3xl shadow-lg hover:shadow-2xl transition-all duration-500">
-                      <img src="/images/tech-workspace.svg" className="w-full h-72 object-cover group-hover:scale-110 transition-transform duration-700" alt="Modern Technology" />
+                      <img src="https://images.unsplash.com/photo-1488590528505-98d2b5aba04b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80" className="w-full h-72 object-cover group-hover:scale-110 transition-transform duration-700" alt="Modern Technology" />
                       <div className="absolute inset-0 bg-gradient-to-t from-slate-900/50 to-transparent"></div>
                       <div className="absolute bottom-4 left-4 text-white">
                         <h4 className="font-bold text-lg">Advanced Systems</h4>
