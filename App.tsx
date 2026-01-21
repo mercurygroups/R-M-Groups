@@ -8,10 +8,16 @@ import TermsAndConditions from './components/TermsAndConditions';
 import CookiePolicy from './components/CookiePolicy';
 import CookieBanner from './components/CookieBanner';
 import SEOFAQSection from './components/SEOFAQSection';
+import TestimonialsSection from './components/TestimonialsSection';
+import PartnersSection from './components/PartnersSection';
+import NewsSection from './components/NewsSection';
+import DetailedServicesSection from './components/DetailedServicesSection';
+import PWAInstallPrompt from './components/PWAInstallPrompt';
 import { useGoogleAnalytics, trackUserLocation } from './components/GoogleAnalytics';
 import { SERVICES, COMPANY_DETAILS } from './constants';
 import { Mail, Phone, MapPin, CheckCircle2, Globe, Shield, Zap, ExternalLink } from 'lucide-react';
 import * as Icons from 'lucide-react';
+import { initializePWA } from './pwaUtils';
 
 const App: React.FC = () => {
   const [showTerms, setShowTerms] = useState(false);
@@ -70,6 +76,11 @@ const App: React.FC = () => {
     document.getElementById(section)?.scrollIntoView({ behavior: 'smooth' });
   };
 
+  // Initialize PWA on component mount
+  useEffect(() => {
+    initializePWA().catch(console.error);
+  }, []);
+
   return (
     <div className="min-h-screen flex flex-col">
       <Navbar />
@@ -79,7 +90,7 @@ const App: React.FC = () => {
         <section id="home" className="relative min-h-screen flex items-center overflow-hidden">
           <div className="absolute inset-0 z-0">
             <img 
-              src="https://images.unsplash.com/photo-1436491865332-7a61a109c0f3?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2074&q=80" 
+              src="/images/moutaman-kamal-9aVkgRLC8g4-unsplash.jpg" 
               alt="Professional Travel Services" 
               className="w-full h-full object-cover"
             />
@@ -272,6 +283,9 @@ const App: React.FC = () => {
           </div>
         </section>
 
+        {/* Detailed Services Section */}
+        <DetailedServicesSection />
+
         {/* Checklist/Assurance Section */}
         <section className="py-32 bg-gradient-to-br from-slate-900 via-blue-900 to-indigo-900 text-white overflow-hidden relative">
           {/* Background decorations */}
@@ -324,7 +338,7 @@ const App: React.FC = () => {
               <div className="lg:w-1/2 relative">
                 <div className="relative z-10 rounded-3xl overflow-hidden shadow-2xl group">
                   <img 
-                    src="https://images.unsplash.com/photo-1497215728101-856f4ea42174?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80" 
+                    src="/images/rob-wilson-WuD-H9IQnfg-unsplash.jpg" 
                     alt="Corporate Excellence" 
                     className="w-full h-auto group-hover:scale-105 transition-transform duration-700"
                   />
@@ -481,6 +495,15 @@ const App: React.FC = () => {
 
         {/* SEO FAQ Section */}
         <SEOFAQSection />
+
+        {/* Testimonials Section */}
+        <TestimonialsSection />
+
+        {/* Partners Section */}
+        <PartnersSection />
+
+        {/* News Section */}
+        <NewsSection />
 
         {/* Contact Section */}
         <section id="contact" className="py-32 bg-white relative overflow-hidden">
@@ -714,6 +737,7 @@ const App: React.FC = () => {
 
       <ChatBot />
       <CookieBanner />
+      <PWAInstallPrompt />
       
       {/* Modal Components */}
       <TermsAndConditions isOpen={showTerms} onClose={() => setShowTerms(false)} />
