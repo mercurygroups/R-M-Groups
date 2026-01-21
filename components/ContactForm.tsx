@@ -2,6 +2,7 @@
 import React, { useState } from 'react';
 import { Send, CheckCircle2, Sparkles } from 'lucide-react';
 import { SERVICES, COMPANY_DETAILS } from '../constants';
+import { trackContactForm, trackPhoneCall, trackWhatsAppClick } from './GoogleAnalytics';
 
 const ContactForm: React.FC = () => {
   const [isSubmitted, setIsSubmitted] = useState(false);
@@ -15,6 +16,10 @@ const ContactForm: React.FC = () => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    
+    // Track form submission
+    trackContactForm('Premium Inquiry Form', formData.service);
+    
     // Simulate form submission
     console.log('Form data:', formData);
     setIsSubmitted(true);
@@ -22,6 +27,16 @@ const ContactForm: React.FC = () => {
       setIsSubmitted(false);
       setFormData({ name: '', email: '', phone: '', service: '', message: '' });
     }, 5000);
+  };
+
+  const handlePhoneClick = () => {
+    trackPhoneCall();
+    window.location.href = `tel:${COMPANY_DETAILS.phone}`;
+  };
+
+  const handleWhatsAppClick = () => {
+    trackWhatsAppClick();
+    window.open(`https://wa.me/${COMPANY_DETAILS.whatsapp}`, '_blank');
   };
 
   if (isSubmitted) {
@@ -170,21 +185,19 @@ const ContactForm: React.FC = () => {
           <div className="text-center">
             <p className="text-slate-500 text-sm mb-4">Prefer direct contact?</p>
             <div className="flex flex-col sm:flex-row justify-center items-center space-y-2 sm:space-y-0 sm:space-x-6">
-               <a 
-                 href={`tel:${COMPANY_DETAILS.phone}`} 
+               <button 
+                 onClick={handlePhoneClick}
                  className="inline-flex items-center text-blue-600 font-semibold hover:text-blue-700 transition-colors"
                >
                  <span>📞 Call Now</span>
-               </a>
+               </button>
                <span className="hidden sm:block text-slate-300">|</span>
-               <a 
-                 href={`https://wa.me/${COMPANY_DETAILS.whatsapp}`} 
-                 target="_blank" 
-                 rel="noopener noreferrer" 
+               <button 
+                 onClick={handleWhatsAppClick}
                  className="inline-flex items-center text-green-600 font-semibold hover:text-green-700 transition-colors"
                >
                  <span>💬 WhatsApp Chat</span>
-               </a>
+               </button>
             </div>
           </div>
         </div>

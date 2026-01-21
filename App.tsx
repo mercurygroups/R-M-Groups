@@ -1,5 +1,5 @@
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Navbar from './components/Navbar';
 import ServiceCard from './components/ServiceCard';
 import ContactForm from './components/ContactForm';
@@ -8,6 +8,7 @@ import TermsAndConditions from './components/TermsAndConditions';
 import CookiePolicy from './components/CookiePolicy';
 import CookieBanner from './components/CookieBanner';
 import SEOFAQSection from './components/SEOFAQSection';
+import { useGoogleAnalytics, trackUserLocation } from './components/GoogleAnalytics';
 import { SERVICES, COMPANY_DETAILS } from './constants';
 import { Mail, Phone, MapPin, CheckCircle2, Globe, Shield, Zap, ExternalLink } from 'lucide-react';
 import * as Icons from 'lucide-react';
@@ -15,6 +16,59 @@ import * as Icons from 'lucide-react';
 const App: React.FC = () => {
   const [showTerms, setShowTerms] = useState(false);
   const [showCookiePolicy, setShowCookiePolicy] = useState(false);
+  
+  // Initialize Google Analytics tracking
+  const analytics = useGoogleAnalytics();
+
+  // Track user location on component mount
+  useEffect(() => {
+    // Get user's approximate location for analytics (with consent)
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          // You can use a reverse geocoding service here
+          trackUserLocation('Nigeria', 'NG'); // Default to Nigeria for this business
+        },
+        () => {
+          trackUserLocation('Nigeria', 'NG'); // Default fallback
+        }
+      );
+    }
+  }, []);
+
+  // Track hero button clicks
+  const handleExploreServices = () => {
+    analytics.trackEvent('hero_button_click', 'Navigation', 'Explore Services');
+    document.getElementById('services')?.scrollIntoView({ behavior: 'smooth' });
+  };
+
+  const handleStartJourney = () => {
+    analytics.trackEvent('hero_button_click', 'Navigation', 'Start Journey');
+    document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' });
+  };
+
+  // Track phone and WhatsApp clicks
+  const handlePhoneClick = () => {
+    analytics.trackPhoneCall();
+    window.location.href = `tel:${COMPANY_DETAILS.phone}`;
+  };
+
+  const handleWhatsAppClick = () => {
+    analytics.trackWhatsAppClick();
+    window.open(`https://wa.me/${COMPANY_DETAILS.whatsapp}`, '_blank');
+  };
+
+  // Track email clicks
+  const handleEmailClick = () => {
+    analytics.trackEvent('email_click', 'Contact', 'Email Link');
+    window.location.href = `mailto:${COMPANY_DETAILS.email}`;
+  };
+
+  // Track navigation clicks
+  const handleNavigation = (section: string) => {
+    analytics.trackEvent('navigation_click', 'Navigation', section);
+    document.getElementById(section)?.scrollIntoView({ behavior: 'smooth' });
+  };
 
   return (
     <div className="min-h-screen flex flex-col">
@@ -57,14 +111,14 @@ const App: React.FC = () => {
               
               <div className="hero-buttons flex flex-col sm:flex-row gap-4 sm:gap-6 max-w-2xl">
                 <button 
-                  onClick={() => document.getElementById('services')?.scrollIntoView({ behavior: 'smooth' })}
+                  onClick={handleExploreServices}
                   className="hero-button group bg-white text-slate-900 px-8 sm:px-10 lg:px-12 py-4 sm:py-5 lg:py-6 rounded-2xl font-bold text-base sm:text-lg lg:text-xl hover:bg-slate-100 transition-all duration-300 shadow-2xl hover:shadow-white/20 active:scale-95 text-center relative overflow-hidden flex-1 sm:flex-none sm:min-w-[200px] lg:min-w-[220px]"
                 >
                   <span className="relative z-10">Explore Our Services</span>
                   <div className="absolute inset-0 bg-gradient-to-r from-blue-600 to-indigo-600 opacity-0 group-hover:opacity-10 transition-opacity duration-300"></div>
                 </button>
                 <button 
-                  onClick={() => document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' })}
+                  onClick={handleStartJourney}
                   className="hero-button group bg-gradient-to-r from-blue-600 to-indigo-600 text-white px-8 sm:px-10 lg:px-12 py-4 sm:py-5 lg:py-6 rounded-2xl font-bold text-base sm:text-lg lg:text-xl hover:from-blue-700 hover:to-indigo-700 transition-all duration-300 shadow-2xl hover:shadow-blue-500/25 active:scale-95 text-center relative overflow-hidden flex-1 sm:flex-none sm:min-w-[200px] lg:min-w-[220px]"
                 >
                   <span className="relative z-10">Start Your Journey</span>
@@ -204,7 +258,10 @@ const App: React.FC = () => {
                   Join hundreds of satisfied clients who trust R&M Groups for their travel needs across Nigeria and beyond.
                 </p>
                 <button 
-                  onClick={() => document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' })}
+                  onClick={() => {
+                    analytics.trackEvent('cta_click', 'Services', 'Get Custom Quote');
+                    document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' });
+                  }}
                   className="group bg-white text-blue-600 px-12 py-6 rounded-2xl font-bold text-lg hover:bg-blue-50 transition-all duration-300 shadow-2xl active:scale-95 relative overflow-hidden"
                 >
                   <span className="relative z-10">Get Your Custom Travel Quote</span>
@@ -458,10 +515,13 @@ const App: React.FC = () => {
                     <div>
                       <h4 className="text-xl font-bold text-slate-900 mb-2">Phone & WhatsApp</h4>
                       <p className="text-slate-600 text-lg mb-2">{COMPANY_DETAILS.phone}</p>
-                      <a href={`https://wa.me/${COMPANY_DETAILS.whatsapp}`} className="inline-flex items-center text-green-600 font-semibold hover:text-green-700 transition-colors">
+                      <button 
+                        onClick={handleWhatsAppClick}
+                        className="inline-flex items-center text-green-600 font-semibold hover:text-green-700 transition-colors"
+                      >
                         <span>Chat on WhatsApp</span>
                         <Icons.ExternalLink size={16} className="ml-2" />
-                      </a>
+                      </button>
                     </div>
                   </div>
                   
@@ -472,10 +532,13 @@ const App: React.FC = () => {
                     <div>
                       <h4 className="text-xl font-bold text-slate-900 mb-2">Email Address</h4>
                       <p className="text-slate-600 text-lg">{COMPANY_DETAILS.email}</p>
-                      <a href={`mailto:${COMPANY_DETAILS.email}`} className="inline-flex items-center text-blue-600 font-semibold hover:text-blue-700 transition-colors">
+                      <button 
+                        onClick={handleEmailClick}
+                        className="inline-flex items-center text-blue-600 font-semibold hover:text-blue-700 transition-colors"
+                      >
                         <span>Send Email</span>
                         <Icons.ExternalLink size={16} className="ml-2" />
-                      </a>
+                      </button>
                     </div>
                   </div>
                   
@@ -559,7 +622,7 @@ const App: React.FC = () => {
               <ul className="space-y-4">
                 <li>
                   <button 
-                    onClick={() => document.getElementById('about')?.scrollIntoView({behavior:'smooth'})} 
+                    onClick={() => handleNavigation('about')} 
                     className="text-slate-300 hover:text-blue-400 transition-colors duration-300 text-left"
                   >
                     About Us
@@ -567,7 +630,7 @@ const App: React.FC = () => {
                 </li>
                 <li>
                   <button 
-                    onClick={() => document.getElementById('services')?.scrollIntoView({behavior:'smooth'})} 
+                    onClick={() => handleNavigation('services')} 
                     className="text-slate-300 hover:text-blue-400 transition-colors duration-300 text-left"
                   >
                     Our Services
@@ -575,7 +638,10 @@ const App: React.FC = () => {
                 </li>
                 <li>
                   <button 
-                    onClick={() => setShowTerms(true)}
+                    onClick={() => {
+                      analytics.trackEvent('footer_link_click', 'Legal', 'Terms & Conditions');
+                      setShowTerms(true);
+                    }}
                     className="text-slate-300 hover:text-blue-400 transition-colors duration-300 text-left"
                   >
                     Terms & Conditions
@@ -583,7 +649,10 @@ const App: React.FC = () => {
                 </li>
                 <li>
                   <button 
-                    onClick={() => setShowCookiePolicy(true)}
+                    onClick={() => {
+                      analytics.trackEvent('footer_link_click', 'Legal', 'Cookie Policy');
+                      setShowCookiePolicy(true);
+                    }}
                     className="text-slate-300 hover:text-blue-400 transition-colors duration-300 text-left"
                   >
                     Cookie Policy
@@ -596,12 +665,15 @@ const App: React.FC = () => {
               <h4 className="text-xl font-bold mb-8 text-white">Support</h4>
               <ul className="space-y-4">
                 <li>
-                  <a 
-                    href={`mailto:${COMPANY_DETAILS.email}`} 
-                    className="text-slate-300 hover:text-blue-400 transition-colors duration-300"
+                  <button 
+                    onClick={() => {
+                      analytics.trackEvent('footer_link_click', 'Support', 'Support Center');
+                      window.location.href = `mailto:${COMPANY_DETAILS.email}`;
+                    }}
+                    className="text-slate-300 hover:text-blue-400 transition-colors duration-300 text-left"
                   >
                     Support Center
-                  </a>
+                  </button>
                 </li>
                 <li>
                   <a href="#" className="text-slate-300 hover:text-blue-400 transition-colors duration-300">

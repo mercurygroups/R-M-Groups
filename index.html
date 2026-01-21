@@ -44,6 +44,40 @@
     
     <title>R&M Groups | Nigeria's Premier Travel & Logistics Company - Expert Flight Booking, Visa Services & Luxury Transport</title>
     
+    <!-- Google Analytics 4 (GA4) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-RMGROUPS2026"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-RMGROUPS2026', {
+        page_title: 'R&M Groups - Premium Travel Services Nigeria',
+        page_location: window.location.href,
+        content_group1: 'Travel Services',
+        content_group2: 'Nigeria Business',
+        custom_map: {
+          'custom_parameter_1': 'service_type',
+          'custom_parameter_2': 'user_location'
+        }
+      });
+      
+      // Enhanced eCommerce tracking for travel bookings
+      gtag('config', 'G-RMGROUPS2026', {
+        enhanced_ecommerce: true,
+        send_page_view: true,
+        anonymize_ip: true,
+        allow_google_signals: true,
+        allow_ad_personalization_signals: true
+      });
+    </script>
+    
+    <!-- Google Tag Manager (optional for advanced tracking) -->
+    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+    })(window,document,'script','dataLayer','GTM-RMGROUPS');</script>
+    
     <!-- Enhanced Structured Data for SEO -->
     <script type="application/ld+json">
     {
@@ -252,6 +286,10 @@
 <link rel="stylesheet" href="/index.css">
 </head>
   <body class="bg-gray-50 text-gray-900">
+    <!-- Google Tag Manager (noscript) -->
+    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-RMGROUPS"
+    height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+    
     <div id="root"></div>
   <script type="module" src="/index.tsx"></script>
 </body>

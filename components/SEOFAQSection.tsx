@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { ChevronDown, ChevronUp, HelpCircle } from 'lucide-react';
+import { trackFAQClick, trackPhoneCall, trackWhatsAppClick } from './GoogleAnalytics';
 
 const SEOFAQSection: React.FC = () => {
   const [openFAQ, setOpenFAQ] = useState<number | null>(null);
@@ -48,7 +49,21 @@ const SEOFAQSection: React.FC = () => {
   ];
 
   const toggleFAQ = (index: number) => {
+    const faq = faqs[index];
+    if (openFAQ !== index) {
+      trackFAQClick(faq.question);
+    }
     setOpenFAQ(openFAQ === index ? null : index);
+  };
+
+  const handlePhoneClick = () => {
+    trackPhoneCall();
+    window.location.href = "tel:+2349011902882";
+  };
+
+  const handleWhatsAppClick = () => {
+    trackWhatsAppClick();
+    window.open("https://wa.me/2349011902882", "_blank");
   };
 
   return (
@@ -109,20 +124,18 @@ const SEOFAQSection: React.FC = () => {
               Our travel experts are ready to assist you with personalized solutions for all your travel needs.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <a
-                href="tel:+2349011902882"
+              <button
+                onClick={handlePhoneClick}
                 className="bg-white text-blue-600 px-8 py-3 rounded-2xl font-semibold hover:bg-blue-50 transition-colors"
               >
                 Call +234 901 190 2882
-              </a>
-              <a
-                href="https://wa.me/2349011902882"
-                target="_blank"
-                rel="noopener noreferrer"
+              </button>
+              <button
+                onClick={handleWhatsAppClick}
                 className="bg-green-600 text-white px-8 py-3 rounded-2xl font-semibold hover:bg-green-700 transition-colors"
               >
                 WhatsApp Chat
-              </a>
+              </button>
             </div>
           </div>
         </div>

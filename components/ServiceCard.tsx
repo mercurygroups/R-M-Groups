@@ -2,6 +2,7 @@
 import React from 'react';
 import * as Icons from 'lucide-react';
 import { Service } from '../types';
+import { trackServiceClick } from './GoogleAnalytics';
 
 interface ServiceCardProps {
   service: Service;
@@ -9,6 +10,11 @@ interface ServiceCardProps {
 
 const ServiceCard: React.FC<ServiceCardProps> = ({ service }) => {
   const IconComponent = (Icons as any)[service.icon] || Icons.HelpCircle;
+
+  const handleLearnMoreClick = () => {
+    trackServiceClick(service.title, 'Learn More');
+    document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' });
+  };
 
   return (
     <div className="group relative bg-white rounded-3xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-500 border border-slate-100 hover:border-blue-200 hover:-translate-y-3">
@@ -46,7 +52,7 @@ const ServiceCard: React.FC<ServiceCardProps> = ({ service }) => {
         
         <div className="flex items-center justify-between">
           <button 
-            onClick={() => document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' })}
+            onClick={handleLearnMoreClick}
             className="group/btn inline-flex items-center text-blue-600 font-semibold text-sm hover:text-blue-700 transition-all duration-300"
           >
             <span>Learn More</span>
