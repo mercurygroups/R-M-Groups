@@ -1,9 +1,9 @@
 // Database service for R&M Groups using Neon PostgreSQL
+import { neon } from '@neondatabase/serverless';
 import { trackEvent } from '../components/GoogleAnalytics';
 
 // Database configuration
-const DATABASE_URL = process.env.DATABASE_URL;
-const NEON_API_URL = process.env.NEON_API_URL;
+const sql = neon('postgresql://neondb_owner:npg_q3RDgixPA1Tm@ep-jolly-dust-ahnmv417-pooler.c-3.us-east-1.aws.neon.tech/neondb?sslmode=require&channel_binding=require');
 
 // User interface
 export interface User {
@@ -48,51 +48,27 @@ export interface AuthResponse {
   message: string;
 }
 
+// Session cache interface
+interface SessionCache {
+  [key: string]: {
+    user: User;
+    token: string;
+    expiresAt: number;
+  };
+}
+
 // Database service class
 class DatabaseService {
-  private apiUrl: string;
-
-  constructor() {
-    this.apiUrl = NEON_API_URL || '';
-  }
-
-  // Execute SQL query via Neon REST API
-  private async executeQuery(sql: string, params: any[] = []): Promise<any> {
-    try {
-      const response = await fetch(`${this.apiUrl}/query`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${this.getApiKey()}`
-        },
-        body: JSON.stringify({
-          query: sql,
-          params: params
-        })
-      });
-
-      if (!response.ok) {
-        throw new Error(`Database query failed: ${response.statusText}`);
-      }
-
-      const result = await response.json();
-      return result;
-    } catch (error) {
-      console.error('Database query error:', error);
-      throw error;
-    }
-  }
-
-  private getApiKey(): string {
-    // In a real implementation, this would be securely managed
-    return 'your-neon-api-key';
-  }
+  private sessionCache: SessionCache = {};
+  private cacheTimeout = 15 * 60 * 1000; // 15 minutes
 
   // Initialize database tables
   async initializeTables(): Promise<void> {
     try {
+      console.log('Initializing database tables...');
+
       // Users table
-      await this.executeQuery(`
+      await sql`
         CREATE TABLE IF NOT EXISTS users (
           id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
           email VARCHAR(255) UNIQUE NOT NULL,
@@ -103,7 +79,7 @@ class DatabaseService {
           date_of_birth DATE,
           nationality VARCHAR(100),
           passport_number VARCHAR(50),
-          preferred_services TEXT[],
+          preferred_services TEXT[] DEFAULT '{}',
           loyalty_points INTEGER DEFAULT 0,
           membership_tier VARCHAR(20) DEFAULT 'Bronze',
           is_verified BOOLEAN DEFAULT FALSE,
@@ -114,10 +90,10 @@ class DatabaseService {
           updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
           last_login_at TIMESTAMP
         )
-      `);
+      `;
 
       // Bookings table
-      await this.executeQuery(`
+      await sql`
         CREATE TABLE IF NOT EXISTS bookings (
           id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
           user_id UUID REFERENCES users(id) ON DELETE CASCADE,
@@ -132,10 +108,10 @@ class DatabaseService {
           created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
           updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
         )
-      `);
+      `;
 
-      // User sessions table
-      await this.executeQuery(`
+      // User sessions table for session management
+      await sql`
         CREATE TABLE IF NOT EXISTS user_sessions (
           id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
           user_id UUID REFERENCES users(id) ON DELETE CASCADE,
@@ -146,10 +122,10 @@ class DatabaseService {
           ip_address INET,
           user_agent TEXT
         )
-      `);
+      `;
 
       // Travel preferences table
-      await this.executeQuery(`
+      await sql`
         CREATE TABLE IF NOT EXISTS travel_preferences (
           id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
           user_id UUID REFERENCES users(id) ON DELETE CASCADE,
@@ -161,13 +137,44 @@ class DatabaseService {
           created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
           updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
         )
-      `);
+      `;
+
+      // Create indexes for better performance
+      await sql`CREATE INDEX IF NOT EXISTS idx_users_email ON users(email)`;
+      await sql`CREATE INDEX IF NOT EXISTS idx_bookings_user_id ON bookings(user_id)`;
+      await sql`CREATE INDEX IF NOT EXISTS idx_sessions_user_id ON user_sessions(user_id)`;
+      await sql`CREATE INDEX IF NOT EXISTS idx_sessions_token ON user_sessions(token_hash)`;
 
       console.log('Database tables initialized successfully');
     } catch (error) {
       console.error('Failed to initialize database tables:', error);
       throw error;
     }
+  }
+
+  // Session caching methods
+  private getCachedSession(userId: string): { user: User; token: string } | null {
+    const cached = this.sessionCache[userId];
+    if (cached && cached.expiresAt > Date.now()) {
+      return { user: cached.user, token: cached.token };
+    }
+    // Clean up expired cache
+    if (cached) {
+      delete this.sessionCache[userId];
+    }
+    return null;
+  }
+
+  private setCachedSession(userId: string, user: User, token: string): void {
+    this.sessionCache[userId] = {
+      user,
+      token,
+      expiresAt: Date.now() + this.cacheTimeout
+    };
+  }
+
+  private clearCachedSession(userId: string): void {
+    delete this.sessionCache[userId];
   }
 
   // User registration
@@ -179,21 +186,27 @@ class DatabaseService {
     phone?: string;
   }): Promise<AuthResponse> {
     try {
-      // Hash password (in a real app, this would be done server-side)
+      // Hash password
       const passwordHash = await this.hashPassword(userData.password);
 
-      const result = await this.executeQuery(`
+      const result = await sql`
         INSERT INTO users (email, password_hash, first_name, last_name, phone)
-        VALUES ($1, $2, $3, $4, $5)
+        VALUES (${userData.email}, ${passwordHash}, ${userData.firstName}, ${userData.lastName}, ${userData.phone || null})
         RETURNING id, email, first_name, last_name, phone, loyalty_points, membership_tier, is_verified, created_at
-      `, [userData.email, passwordHash, userData.firstName, userData.lastName, userData.phone || null]);
+      `;
 
-      if (result.rows && result.rows.length > 0) {
-        const user = this.mapUserFromDb(result.rows[0]);
+      if (result && result.length > 0) {
+        const user = this.mapUserFromDb(result[0]);
         const token = await this.generateJWT(user.id);
 
+        // Cache the session
+        this.setCachedSession(user.id, user, token);
+
+        // Store session in database
+        await this.storeSession(user.id, token);
+
         // Track registration
-        if (window.gtag) {
+        if (typeof window !== 'undefined' && window.gtag) {
           trackEvent('user_registration', 'Authentication', 'New User Signup');
         }
 
@@ -212,7 +225,7 @@ class DatabaseService {
     } catch (error: any) {
       console.error('Registration error:', error);
       
-      if (error.message.includes('duplicate key')) {
+      if (error.message.includes('duplicate key') || error.message.includes('unique constraint')) {
         return {
           success: false,
           message: 'Email already exists'
@@ -229,21 +242,21 @@ class DatabaseService {
   // User login
   async loginUser(email: string, password: string): Promise<AuthResponse> {
     try {
-      const result = await this.executeQuery(`
+      const result = await sql`
         SELECT id, email, password_hash, first_name, last_name, phone, 
-               loyalty_points, membership_tier, is_verified, created_at
+               loyalty_points, membership_tier, is_verified, created_at, preferred_services
         FROM users 
-        WHERE email = $1
-      `, [email]);
+        WHERE email = ${email}
+      `;
 
-      if (!result.rows || result.rows.length === 0) {
+      if (!result || result.length === 0) {
         return {
           success: false,
           message: 'Invalid email or password'
         };
       }
 
-      const userRow = result.rows[0];
+      const userRow = result[0];
       const isValidPassword = await this.verifyPassword(password, userRow.password_hash);
 
       if (!isValidPassword) {
@@ -254,15 +267,21 @@ class DatabaseService {
       }
 
       // Update last login
-      await this.executeQuery(`
-        UPDATE users SET last_login_at = CURRENT_TIMESTAMP WHERE id = $1
-      `, [userRow.id]);
+      await sql`
+        UPDATE users SET last_login_at = CURRENT_TIMESTAMP WHERE id = ${userRow.id}
+      `;
 
       const user = this.mapUserFromDb(userRow);
       const token = await this.generateJWT(user.id);
 
+      // Cache the session
+      this.setCachedSession(user.id, user, token);
+
+      // Store session in database
+      await this.storeSession(user.id, token);
+
       // Track login
-      if (window.gtag) {
+      if (typeof window !== 'undefined' && window.gtag) {
         trackEvent('user_login', 'Authentication', 'User Login');
       }
 
@@ -281,19 +300,25 @@ class DatabaseService {
     }
   }
 
-  // Get user by ID
+  // Get user by ID with caching
   async getUserById(userId: string): Promise<User | null> {
     try {
-      const result = await this.executeQuery(`
+      // Check cache first
+      const cached = this.getCachedSession(userId);
+      if (cached) {
+        return cached.user;
+      }
+
+      const result = await sql`
         SELECT id, email, first_name, last_name, phone, date_of_birth, 
                nationality, passport_number, preferred_services, loyalty_points, 
                membership_tier, is_verified, created_at, updated_at, last_login_at
         FROM users 
-        WHERE id = $1
-      `, [userId]);
+        WHERE id = ${userId}
+      `;
 
-      if (result.rows && result.rows.length > 0) {
-        return this.mapUserFromDb(result.rows[0]);
+      if (result && result.length > 0) {
+        return this.mapUserFromDb(result[0]);
       }
 
       return null;
@@ -306,52 +331,114 @@ class DatabaseService {
   // Update user profile
   async updateUserProfile(userId: string, updates: Partial<User>): Promise<boolean> {
     try {
-      const setClause = [];
-      const values = [];
-      let paramIndex = 1;
+      const updateFields: string[] = [];
+      const values: any[] = [];
 
       if (updates.firstName) {
-        setClause.push(`first_name = $${paramIndex++}`);
+        updateFields.push('first_name');
         values.push(updates.firstName);
       }
       if (updates.lastName) {
-        setClause.push(`last_name = $${paramIndex++}`);
+        updateFields.push('last_name');
         values.push(updates.lastName);
       }
       if (updates.phone) {
-        setClause.push(`phone = $${paramIndex++}`);
+        updateFields.push('phone');
         values.push(updates.phone);
       }
       if (updates.dateOfBirth) {
-        setClause.push(`date_of_birth = $${paramIndex++}`);
+        updateFields.push('date_of_birth');
         values.push(updates.dateOfBirth);
       }
       if (updates.nationality) {
-        setClause.push(`nationality = $${paramIndex++}`);
+        updateFields.push('nationality');
         values.push(updates.nationality);
       }
       if (updates.passportNumber) {
-        setClause.push(`passport_number = $${paramIndex++}`);
+        updateFields.push('passport_number');
         values.push(updates.passportNumber);
       }
       if (updates.preferredServices) {
-        setClause.push(`preferred_services = $${paramIndex++}`);
+        updateFields.push('preferred_services');
         values.push(updates.preferredServices);
       }
 
-      setClause.push(`updated_at = CURRENT_TIMESTAMP`);
+      if (updateFields.length === 0) {
+        return false;
+      }
+
+      // Build dynamic query
+      const setClause = updateFields.map((field, index) => `${field} = $${index + 1}`).join(', ');
       values.push(userId);
 
-      await this.executeQuery(`
+      await sql.unsafe(`
         UPDATE users 
-        SET ${setClause.join(', ')}
-        WHERE id = $${paramIndex}
+        SET ${setClause}, updated_at = CURRENT_TIMESTAMP
+        WHERE id = $${values.length}
       `, values);
+
+      // Clear cache to force refresh
+      this.clearCachedSession(userId);
 
       return true;
     } catch (error) {
       console.error('Update profile error:', error);
       return false;
+    }
+  }
+
+  // Store session in database
+  private async storeSession(userId: string, token: string): Promise<void> {
+    try {
+      const tokenHash = await this.hashPassword(token);
+      const expiresAt = new Date(Date.now() + (7 * 24 * 60 * 60 * 1000)); // 7 days
+
+      await sql`
+        INSERT INTO user_sessions (user_id, token_hash, expires_at)
+        VALUES (${userId}, ${tokenHash}, ${expiresAt})
+      `;
+    } catch (error) {
+      console.error('Store session error:', error);
+    }
+  }
+
+  // Validate session
+  async validateSession(token: string): Promise<User | null> {
+    try {
+      const payload = JSON.parse(atob(token));
+      const userId = payload.userId;
+
+      if (payload.exp < Date.now()) {
+        return null;
+      }
+
+      // Check cache first
+      const cached = this.getCachedSession(userId);
+      if (cached && cached.token === token) {
+        return cached.user;
+      }
+
+      // Validate against database
+      const tokenHash = await this.hashPassword(token);
+      const result = await sql`
+        SELECT u.id, u.email, u.first_name, u.last_name, u.phone, u.date_of_birth,
+               u.nationality, u.passport_number, u.preferred_services, u.loyalty_points,
+               u.membership_tier, u.is_verified, u.created_at, u.updated_at, u.last_login_at
+        FROM users u
+        JOIN user_sessions s ON u.id = s.user_id
+        WHERE s.token_hash = ${tokenHash} AND s.expires_at > CURRENT_TIMESTAMP
+      `;
+
+      if (result && result.length > 0) {
+        const user = this.mapUserFromDb(result[0]);
+        this.setCachedSession(userId, user, token);
+        return user;
+      }
+
+      return null;
+    } catch (error) {
+      console.error('Validate session error:', error);
+      return null;
     }
   }
 
@@ -365,26 +452,20 @@ class DatabaseService {
     travelDate?: string;
   }): Promise<string | null> {
     try {
-      const result = await this.executeQuery(`
+      const result = await sql`
         INSERT INTO bookings (user_id, service_type, service_details, total_amount, currency, travel_date)
-        VALUES ($1, $2, $3, $4, $5, $6)
+        VALUES (${bookingData.userId}, ${bookingData.serviceType}, ${JSON.stringify(bookingData.serviceDetails)}, 
+                ${bookingData.totalAmount}, ${bookingData.currency || 'NGN'}, ${bookingData.travelDate || null})
         RETURNING id
-      `, [
-        bookingData.userId,
-        bookingData.serviceType,
-        JSON.stringify(bookingData.serviceDetails),
-        bookingData.totalAmount,
-        bookingData.currency || 'NGN',
-        bookingData.travelDate || null
-      ]);
+      `;
 
-      if (result.rows && result.rows.length > 0) {
+      if (result && result.length > 0) {
         // Track booking creation
-        if (window.gtag) {
+        if (typeof window !== 'undefined' && window.gtag) {
           trackEvent('booking_created', 'Bookings', bookingData.serviceType, bookingData.totalAmount);
         }
 
-        return result.rows[0].id;
+        return result[0].id;
       }
 
       return null;
@@ -397,16 +478,16 @@ class DatabaseService {
   // Get user bookings
   async getUserBookings(userId: string): Promise<Booking[]> {
     try {
-      const result = await this.executeQuery(`
+      const result = await sql`
         SELECT id, user_id, service_type, service_details, status, total_amount, 
                currency, payment_status, booking_date, travel_date, created_at, updated_at
         FROM bookings 
-        WHERE user_id = $1 
+        WHERE user_id = ${userId}
         ORDER BY created_at DESC
-      `, [userId]);
+      `;
 
-      if (result.rows) {
-        return result.rows.map(this.mapBookingFromDb);
+      if (result) {
+        return result.map(this.mapBookingFromDb);
       }
 
       return [];
@@ -416,12 +497,30 @@ class DatabaseService {
     }
   }
 
+  // Logout user (clear session)
+  async logoutUser(userId: string, token: string): Promise<void> {
+    try {
+      const tokenHash = await this.hashPassword(token);
+      
+      // Remove from database
+      await sql`
+        DELETE FROM user_sessions 
+        WHERE user_id = ${userId} AND token_hash = ${tokenHash}
+      `;
+
+      // Clear cache
+      this.clearCachedSession(userId);
+    } catch (error) {
+      console.error('Logout error:', error);
+    }
+  }
+
   // Helper methods
   private async hashPassword(password: string): Promise<string> {
     // In a real implementation, use bcrypt or similar
     // For demo purposes, using a simple hash
     const encoder = new TextEncoder();
-    const data = encoder.encode(password + 'rm_groups_salt');
+    const data = encoder.encode(password + 'rm_groups_salt_2026');
     const hashBuffer = await crypto.subtle.digest('SHA-256', data);
     const hashArray = Array.from(new Uint8Array(hashBuffer));
     return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
@@ -437,7 +536,8 @@ class DatabaseService {
     // For demo purposes, creating a simple token
     const payload = {
       userId,
-      exp: Date.now() + (7 * 24 * 60 * 60 * 1000) // 7 days
+      exp: Date.now() + (7 * 24 * 60 * 60 * 1000), // 7 days
+      iat: Date.now()
     };
     return btoa(JSON.stringify(payload));
   }
@@ -467,7 +567,7 @@ class DatabaseService {
       id: row.id,
       userId: row.user_id,
       serviceType: row.service_type,
-      serviceDetails: JSON.parse(row.service_details),
+      serviceDetails: typeof row.service_details === 'string' ? JSON.parse(row.service_details) : row.service_details,
       status: row.status,
       totalAmount: parseFloat(row.total_amount),
       currency: row.currency,
@@ -483,5 +583,7 @@ class DatabaseService {
 // Export singleton instance
 export const databaseService = new DatabaseService();
 
-// Initialize database on module load
-databaseService.initializeTables().catch(console.error);
+// Initialize database on module load (only in browser environment)
+if (typeof window !== 'undefined') {
+  databaseService.initializeTables().catch(console.error);
+}

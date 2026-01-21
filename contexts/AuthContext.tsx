@@ -50,24 +50,17 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       const userId = localStorage.getItem('rm_groups_user_id');
 
       if (token && userId) {
-        // Verify token is still valid
-        const payload = JSON.parse(atob(token));
-        if (payload.exp > Date.now()) {
-          const userData = await databaseService.getUserById(userId);
-          if (userData) {
-            setUser(userData);
-            
-            // Track session restoration
-            if (window.gtag) {
-              trackEvent('session_restored', 'Authentication', 'Auto Login');
-            }
-          } else {
-            // Invalid user, clear storage
-            localStorage.removeItem('rm_groups_token');
-            localStorage.removeItem('rm_groups_user_id');
+        // Use the new session validation method
+        const userData = await databaseService.validateSession(token);
+        if (userData) {
+          setUser(userData);
+          
+          // Track session restoration
+          if (typeof window !== 'undefined' && window.gtag) {
+            trackEvent('session_restored', 'Authentication', 'Auto Login');
           }
         } else {
-          // Token expired, clear storage
+          // Invalid session, clear storage
           localStorage.removeItem('rm_groups_token');
           localStorage.removeItem('rm_groups_user_id');
         }
@@ -93,12 +86,12 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         localStorage.setItem('rm_groups_user_id', response.user.id);
 
         // Track successful login
-        if (window.gtag) {
+        if (typeof window !== 'undefined' && window.gtag) {
           trackEvent('user_login_success', 'Authentication', 'Login Success');
         }
       } else {
         // Track failed login
-        if (window.gtag) {
+        if (typeof window !== 'undefined' && window.gtag) {
           trackEvent('user_login_failed', 'Authentication', 'Login Failed');
         }
       }
@@ -126,12 +119,12 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         localStorage.setItem('rm_groups_user_id', response.user.id);
 
         // Track successful registration
-        if (window.gtag) {
+        if (typeof window !== 'undefined' && window.gtag) {
           trackEvent('user_registration_success', 'Authentication', 'Registration Success');
         }
       } else {
         // Track failed registration
-        if (window.gtag) {
+        if (typeof window !== 'undefined' && window.gtag) {
           trackEvent('user_registration_failed', 'Authentication', 'Registration Failed');
         }
       }
@@ -148,13 +141,21 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     }
   };
 
-  const logout = () => {
+  const logout = async () => {
+    if (user) {
+      const token = localStorage.getItem('rm_groups_token');
+      if (token) {
+        // Clear session from database
+        await databaseService.logoutUser(user.id, token);
+      }
+    }
+    
     setUser(null);
     localStorage.removeItem('rm_groups_token');
     localStorage.removeItem('rm_groups_user_id');
 
     // Track logout
-    if (window.gtag) {
+    if (typeof window !== 'undefined' && window.gtag) {
       trackEvent('user_logout', 'Authentication', 'User Logout');
     }
   };
@@ -170,7 +171,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         setUser(prevUser => prevUser ? { ...prevUser, ...updates } : null);
         
         // Track profile update
-        if (window.gtag) {
+        if (typeof window !== 'undefined' && window.gtag) {
           trackEvent('profile_updated', 'User Profile', 'Profile Update');
         }
       }

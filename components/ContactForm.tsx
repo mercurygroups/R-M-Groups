@@ -41,13 +41,13 @@ const ContactForm: React.FC = () => {
 
   if (isSubmitted) {
     return (
-      <div className="bg-gradient-to-br from-white to-blue-50/50 p-12 rounded-3xl shadow-2xl border border-slate-100 flex flex-col items-center text-center relative overflow-hidden">
+      <div className="bg-gradient-to-br from-white to-blue-50/50 p-12 rounded-3xl shadow-2xl border border-slate-100 flex flex-col items-center text-center relative overflow-hidden animate-glow-pulse">
         {/* Background decoration */}
-        <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-blue-500/10 to-indigo-500/10 rounded-full blur-2xl"></div>
-        <div className="absolute bottom-0 left-0 w-24 h-24 bg-gradient-to-br from-green-500/10 to-emerald-500/10 rounded-full blur-2xl"></div>
+        <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-blue-500/10 to-indigo-500/10 rounded-full blur-2xl animate-pulse-glow"></div>
+        <div className="absolute bottom-0 left-0 w-24 h-24 bg-gradient-to-br from-green-500/10 to-emerald-500/10 rounded-full blur-2xl animate-breathing-glow"></div>
         
         <div className="relative z-10">
-          <div className="w-24 h-24 bg-gradient-to-br from-green-500 to-emerald-600 rounded-full flex items-center justify-center mb-8 animate-bounce shadow-lg">
+          <div className="w-24 h-24 bg-gradient-to-br from-green-500 to-emerald-600 rounded-full flex items-center justify-center mb-8 animate-bounce shadow-lg animate-rainbow-glow">
             <CheckCircle2 size={48} className="text-white" />
           </div>
           
@@ -80,18 +80,18 @@ const ContactForm: React.FC = () => {
   }
 
   return (
-    <div className="bg-gradient-to-br from-white to-slate-50/50 p-10 rounded-3xl shadow-2xl border border-slate-100 relative overflow-hidden">
+    <div className="bg-gradient-to-br from-white to-slate-50/50 p-10 rounded-3xl shadow-2xl border border-slate-100 relative overflow-hidden animate-glow-soft">
       {/* Background decoration */}
-      <div className="absolute top-0 right-0 w-40 h-40 bg-gradient-to-br from-blue-500/5 to-indigo-500/5 rounded-full blur-2xl"></div>
-      <div className="absolute bottom-0 left-0 w-32 h-32 bg-gradient-to-br from-purple-500/5 to-pink-500/5 rounded-full blur-2xl"></div>
+      <div className="absolute top-0 right-0 w-40 h-40 bg-gradient-to-br from-blue-500/5 to-indigo-500/5 rounded-full blur-2xl animate-pulse-glow"></div>
+      <div className="absolute bottom-0 left-0 w-32 h-32 bg-gradient-to-br from-purple-500/5 to-pink-500/5 rounded-full blur-2xl animate-breathing-glow"></div>
       
       <div className="relative z-10">
         <div className="text-center mb-10">
-          <div className="inline-flex items-center bg-gradient-to-r from-blue-100 to-indigo-100 text-blue-800 px-6 py-3 rounded-full text-sm font-semibold mb-6 uppercase tracking-wider">
-            <div className="w-2 h-2 bg-blue-600 rounded-full mr-3"></div>
+          <div className="inline-flex items-center bg-gradient-to-r from-blue-100 to-indigo-100 text-blue-800 px-6 py-3 rounded-full text-sm font-semibold mb-6 uppercase tracking-wider animate-glow-border">
+            <div className="w-2 h-2 bg-blue-600 rounded-full mr-3 animate-pulse-glow"></div>
             Premium Inquiry Form
           </div>
-          <h3 className="text-3xl font-black text-slate-900 mb-4">Let's Plan Your Journey</h3>
+          <h3 className="text-3xl font-black text-slate-900 mb-4 animate-glow-text">Let's Plan Your Journey</h3>
           <p className="text-slate-600 text-lg">Share your travel needs and we'll craft the perfect solution</p>
         </div>
         
@@ -173,7 +173,7 @@ const ContactForm: React.FC = () => {
 
           <button 
             type="submit"
-            className="group w-full bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-bold py-5 rounded-2xl shadow-2xl hover:shadow-blue-500/25 transition-all duration-300 flex items-center justify-center space-x-3 active:scale-95 relative overflow-hidden"
+            className="group w-full bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-bold py-5 rounded-2xl shadow-2xl hover:shadow-blue-500/25 transition-all duration-300 flex items-center justify-center space-x-3 active:scale-95 relative overflow-hidden animate-glow-pulse"
           >
             <div className="absolute inset-0 bg-white opacity-0 group-hover:opacity-10 transition-opacity duration-300"></div>
             <Send size={20} className="group-hover:scale-110 transition-transform duration-300" />
@@ -187,14 +187,14 @@ const ContactForm: React.FC = () => {
             <div className="flex flex-col sm:flex-row justify-center items-center space-y-2 sm:space-y-0 sm:space-x-6">
                <button 
                  onClick={handlePhoneClick}
-                 className="inline-flex items-center text-blue-600 font-semibold hover:text-blue-700 transition-colors"
+                 className="inline-flex items-center text-blue-600 font-semibold hover:text-blue-700 transition-colors hover:animate-glow-text"
                >
                  <span>📞 Call Now</span>
                </button>
                <span className="hidden sm:block text-slate-300">|</span>
                <button 
                  onClick={handleWhatsAppClick}
-                 className="inline-flex items-center text-green-600 font-semibold hover:text-green-700 transition-colors"
+                 className="inline-flex items-center text-green-600 font-semibold hover:text-green-700 transition-colors hover:animate-glow-text"
                >
                  <span>💬 WhatsApp Chat</span>
                </button>

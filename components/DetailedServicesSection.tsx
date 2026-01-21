@@ -169,13 +169,13 @@ const DetailedServicesSection: React.FC = () => {
       
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <div className="text-center mb-20">
-          <div className="inline-flex items-center bg-gradient-to-r from-blue-100 to-indigo-100 text-blue-800 px-6 py-3 rounded-full text-sm font-semibold mb-8 uppercase tracking-wider">
-            <CheckCircle className="mr-3" size={16} />
+          <div className="inline-flex items-center bg-gradient-to-r from-blue-100 to-indigo-100 text-blue-800 px-6 py-3 rounded-full text-sm font-semibold mb-8 uppercase tracking-wider animate-glow-border">
+            <CheckCircle className="mr-3 animate-pulse-glow" size={16} />
             Detailed Service Overview
           </div>
-          <h2 className="text-5xl md:text-6xl font-black text-slate-900 mb-8 leading-tight">
+          <h2 className="text-5xl md:text-6xl font-black text-slate-900 mb-8 leading-tight animate-glow-text">
             Comprehensive Travel
-            <span className="block bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">
+            <span className="block bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent animate-rainbow-glow">
               Service Portfolio
             </span>
           </h2>
@@ -187,8 +187,8 @@ const DetailedServicesSection: React.FC = () => {
         <div className="flex flex-col lg:flex-row gap-12">
           {/* Service Navigation */}
           <div className="lg:w-1/3">
-            <div className="bg-gradient-to-br from-slate-50 to-blue-50/30 rounded-3xl p-8 sticky top-8">
-              <h3 className="text-2xl font-bold text-slate-900 mb-8">Our Services</h3>
+            <div className="bg-gradient-to-br from-slate-50 to-blue-50/30 rounded-3xl p-8 sticky top-8 animate-glow-soft">
+              <h3 className="text-2xl font-bold text-slate-900 mb-8 animate-glow-text">Our Services</h3>
               
               <div className="space-y-4">
                 {services.map((service) => {
@@ -201,8 +201,8 @@ const DetailedServicesSection: React.FC = () => {
                       onClick={() => setActiveService(service.id)}
                       className={`w-full text-left p-6 rounded-2xl transition-all duration-300 group ${
                         isActive 
-                          ? 'bg-gradient-to-r from-blue-600 to-indigo-600 text-white shadow-lg' 
-                          : 'bg-white hover:bg-blue-50 text-slate-900 shadow-sm hover:shadow-md'
+                          ? 'bg-gradient-to-r from-blue-600 to-indigo-600 text-white shadow-lg animate-glow-pulse' 
+                          : 'bg-white hover:bg-blue-50 text-slate-900 shadow-sm hover:shadow-md animate-glow-soft'
                       }`}
                     >
                       <div className="flex items-center space-x-4">
@@ -246,7 +246,7 @@ const DetailedServicesSection: React.FC = () => {
 
           {/* Service Details */}
           <div className="lg:w-2/3">
-            <div className="bg-white rounded-3xl shadow-2xl border border-slate-100 overflow-hidden">
+            <div className="bg-white rounded-3xl shadow-2xl border border-slate-100 overflow-hidden animate-glow-soft">
               {/* Service Header */}
               <div className="relative h-64 overflow-hidden">
                 <img 
@@ -257,7 +257,7 @@ const DetailedServicesSection: React.FC = () => {
                 <div className="absolute inset-0 bg-gradient-to-t from-slate-900/80 via-slate-900/20 to-transparent"></div>
                 
                 {activeServiceData.popular && (
-                  <div className="absolute top-6 right-6 bg-gradient-to-r from-blue-600 to-indigo-600 text-white px-4 py-2 rounded-full text-sm font-semibold uppercase tracking-wider">
+                  <div className="absolute top-6 right-6 bg-gradient-to-r from-blue-600 to-indigo-600 text-white px-4 py-2 rounded-full text-sm font-semibold uppercase tracking-wider animate-glow-pulse">
                     Most Popular
                   </div>
                 )}
@@ -313,8 +313,8 @@ const DetailedServicesSection: React.FC = () => {
                 </div>
 
                 {/* Call to Action */}
-                <div className="bg-gradient-to-r from-blue-600 to-indigo-600 rounded-2xl p-8 text-white text-center">
-                  <h4 className="text-2xl font-bold mb-4">Ready to Get Started?</h4>
+                <div className="bg-gradient-to-r from-blue-600 to-indigo-600 rounded-2xl p-8 text-white text-center animate-glow-pulse">
+                  <h4 className="text-2xl font-bold mb-4 animate-glow-text">Ready to Get Started?</h4>
                   <p className="text-blue-100 mb-6 text-lg">
                     Contact our expert consultants for personalized service and competitive pricing.
                   </p>
@@ -322,11 +322,11 @@ const DetailedServicesSection: React.FC = () => {
                   <div className="flex flex-col sm:flex-row gap-4 justify-center">
                     <button 
                       onClick={() => document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' })}
-                      className="bg-white text-blue-600 font-bold px-8 py-4 rounded-2xl hover:bg-blue-50 transition-all duration-300 shadow-lg active:scale-95"
+                      className="bg-white text-blue-600 font-bold px-8 py-4 rounded-2xl hover:bg-blue-50 transition-all duration-300 shadow-lg active:scale-95 animate-glow-soft"
                     >
                       Get Quote Now
                     </button>
-                    <button className="bg-white/20 backdrop-blur-md text-white font-bold px-8 py-4 rounded-2xl hover:bg-white/30 transition-all duration-300 border border-white/30 flex items-center justify-center">
+                    <button className="bg-white/20 backdrop-blur-md text-white font-bold px-8 py-4 rounded-2xl hover:bg-white/30 transition-all duration-300 border border-white/30 flex items-center justify-center animate-breathing-glow">
                       <Phone size={20} className="mr-2" />
                       Call Expert
                     </button>

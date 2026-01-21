@@ -39,15 +39,15 @@ const Navbar: React.FC = () => {
   return (
     <nav className={`fixed w-full z-50 transition-all duration-300 navbar-backdrop ${
       isScrolled 
-        ? 'navbar-scrolled bg-white/98 backdrop-blur-md shadow-xl border-b border-slate-200/60' 
-        : 'bg-slate-900/20 backdrop-blur-xl border-b border-white/20 shadow-lg'
+        ? 'navbar-scrolled bg-white/98 backdrop-blur-md shadow-xl border-b border-slate-200/60 animate-glow-soft' 
+        : 'bg-slate-900/20 backdrop-blur-xl border-b border-white/20 shadow-lg animate-breathing-glow'
     }`}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between h-20 items-center">
           <div className="flex-shrink-0 flex items-center">
             <button 
               onClick={() => scrollTo('home')}
-              className="group flex items-center space-x-3"
+              className="group flex items-center space-x-3 animate-glow-text"
             >
               <div className={`w-10 h-10 rounded-2xl flex items-center justify-center group-hover:scale-110 transition-all duration-300 ${
                 isScrolled 
