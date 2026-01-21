@@ -8,9 +8,19 @@ interface AuthContextType {
   isLoading: boolean;
   login: (email: string, password: string) => Promise<AuthResponse>;
   register: (userData: RegisterData) => Promise<AuthResponse>;
-  logout: () => void;
+  loginWithGoogle?: (googleData: GoogleUserData) => Promise<AuthResponse>;
+  logout: () => Promise<void>;
   updateProfile: (updates: Partial<User>) => Promise<boolean>;
   refreshUser: () => Promise<void>;
+}
+
+interface GoogleUserData {
+  email: string;
+  firstName: string;
+  lastName: string;
+  picture?: string;
+  googleId: string;
+  isVerified: boolean;
 }
 
 interface RegisterData {
@@ -141,6 +151,54 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     }
   };
 
+  const loginWithGoogle = async (googleData: GoogleUserData): Promise<AuthResponse> => {
+    try {
+      setIsLoading(true);
+      
+      // Check if user exists with this email
+      let response = await databaseService.loginUser(googleData.email, 'google_oauth');
+      
+      if (!response.success) {
+        // User doesn't exist, create new account
+        response = await databaseService.registerUser({
+          email: googleData.email,
+          password: 'google_oauth', // Special password for Google users
+          firstName: googleData.firstName,
+          lastName: googleData.lastName,
+          phone: undefined
+        });
+        
+        if (response.success && response.user) {
+          // Update user as verified since Google email is verified
+          await databaseService.updateUserProfile(response.user.id, { 
+            isVerified: true 
+          });
+        }
+      }
+
+      if (response.success && response.user && response.token) {
+        setUser(response.user);
+        localStorage.setItem('rm_groups_token', response.token);
+        localStorage.setItem('rm_groups_user_id', response.user.id);
+
+        // Track successful Google login
+        if (typeof window !== 'undefined' && window.gtag) {
+          trackEvent('user_google_login_success', 'Authentication', 'Google Login Success');
+        }
+      }
+
+      return response;
+    } catch (error) {
+      console.error('Google login error:', error);
+      return {
+        success: false,
+        message: 'Google authentication failed. Please try again.'
+      };
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   const logout = async () => {
     if (user) {
       const token = localStorage.getItem('rm_groups_token');
@@ -202,6 +260,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     isLoading,
     login,
     register,
+    loginWithGoogle,
     logout,
     updateProfile,
     refreshUser

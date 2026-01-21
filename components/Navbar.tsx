@@ -1,16 +1,14 @@
 
 import React, { useState, useEffect } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import { Menu, X, Phone, MessageSquare, User, LogOut, Settings } from 'lucide-react';
 import { COMPANY_DETAILS } from '../constants';
 import { useAuth } from '../contexts/AuthContext';
-import AuthModal from './AuthModal';
-import UserDashboard from './UserDashboard';
 
 const Navbar: React.FC = () => {
+  const navigate = useNavigate();
   const [isOpen, setIsOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
-  const [showAuthModal, setShowAuthModal] = useState(false);
-  const [showUserDashboard, setShowUserDashboard] = useState(false);
   const [showUserMenu, setShowUserMenu] = useState(false);
   
   const { user, isAuthenticated, logout } = useAuth();
@@ -31,9 +29,10 @@ const Navbar: React.FC = () => {
     }
   };
 
-  const handleLogout = () => {
-    logout();
+  const handleLogout = async () => {
+    await logout();
     setShowUserMenu(false);
+    navigate('/');
   };
 
   return (
@@ -46,7 +45,7 @@ const Navbar: React.FC = () => {
         <div className="flex justify-between h-20 items-center">
           <div className="flex-shrink-0 flex items-center">
             <button 
-              onClick={() => scrollTo('home')}
+              onClick={() => navigate('/')}
               className="group flex items-center space-x-3 animate-glow-text"
             >
               <div className={`w-10 h-10 rounded-2xl flex items-center justify-center group-hover:scale-110 transition-all duration-300 ${
@@ -135,7 +134,7 @@ const Navbar: React.FC = () => {
                     
                     <button
                       onClick={() => {
-                        setShowUserDashboard(true);
+                        navigate('/dashboard');
                         setShowUserMenu(false);
                       }}
                       className="w-full flex items-center space-x-3 px-4 py-3 text-left hover:bg-slate-50 transition-colors"
@@ -155,13 +154,25 @@ const Navbar: React.FC = () => {
                 )}
               </div>
             ) : (
-              <button
-                onClick={() => setShowAuthModal(true)}
-                className="bg-gradient-to-r from-blue-600 to-indigo-600 text-white px-6 py-3 rounded-2xl font-semibold hover:from-blue-700 hover:to-indigo-700 transition-all duration-300 shadow-lg hover:shadow-blue-500/25 active:scale-95 flex items-center space-x-2"
-              >
-                <User size={18} />
-                <span>Sign In</span>
-              </button>
+              <div className="flex items-center space-x-3">
+                <Link
+                  to="/login"
+                  className={`font-semibold transition-all duration-300 hover:scale-105 ${
+                    isScrolled 
+                      ? 'text-slate-700 hover:text-blue-600' 
+                      : 'text-white/95 hover:text-blue-200 drop-shadow-sm'
+                  }`}
+                >
+                  Sign In
+                </Link>
+                <Link
+                  to="/signup"
+                  className="bg-gradient-to-r from-blue-600 to-indigo-600 text-white px-6 py-3 rounded-2xl font-semibold hover:from-blue-700 hover:to-indigo-700 transition-all duration-300 shadow-lg hover:shadow-blue-500/25 active:scale-95 flex items-center space-x-2"
+                >
+                  <User size={18} />
+                  <span>Sign Up</span>
+                </Link>
+              </div>
             )}
             
             <a 
@@ -218,7 +229,7 @@ const Navbar: React.FC = () => {
                 <>
                   <button
                     onClick={() => {
-                      setShowUserDashboard(true);
+                      navigate('/dashboard');
                       setIsOpen(false);
                     }}
                     className="flex items-center space-x-3 text-blue-600 py-3 px-4 rounded-2xl hover:bg-blue-50 transition-all duration-300 w-full"
@@ -238,16 +249,24 @@ const Navbar: React.FC = () => {
                   </button>
                 </>
               ) : (
-                <button
-                  onClick={() => {
-                    setShowAuthModal(true);
-                    setIsOpen(false);
-                  }}
-                  className="flex items-center space-x-3 text-blue-600 py-3 px-4 rounded-2xl hover:bg-blue-50 transition-all duration-300 w-full"
-                >
-                  <User size={20} />
-                  <span className="font-semibold">Sign In</span>
-                </button>
+                <div className="space-y-2">
+                  <Link
+                    to="/login"
+                    onClick={() => setIsOpen(false)}
+                    className="flex items-center space-x-3 text-blue-600 py-3 px-4 rounded-2xl hover:bg-blue-50 transition-all duration-300 w-full"
+                  >
+                    <User size={20} />
+                    <span className="font-semibold">Sign In</span>
+                  </Link>
+                  <Link
+                    to="/signup"
+                    onClick={() => setIsOpen(false)}
+                    className="flex items-center space-x-3 bg-gradient-to-r from-blue-600 to-indigo-600 text-white py-3 px-4 rounded-2xl hover:from-blue-700 hover:to-indigo-700 transition-all duration-300 w-full"
+                  >
+                    <User size={20} />
+                    <span className="font-semibold">Sign Up</span>
+                  </Link>
+                </div>
               )}
               
               <a 
@@ -270,18 +289,6 @@ const Navbar: React.FC = () => {
           </div>
         </div>
       )}
-      
-      {/* Auth Modal */}
-      <AuthModal 
-        isOpen={showAuthModal} 
-        onClose={() => setShowAuthModal(false)} 
-      />
-      
-      {/* User Dashboard */}
-      <UserDashboard 
-        isOpen={showUserDashboard} 
-        onClose={() => setShowUserDashboard(false)} 
-      />
     </nav>
   );
 };

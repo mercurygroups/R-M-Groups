@@ -28,9 +28,22 @@ npm install @neondatabase/serverless
 Create a `.env.local` file in the root directory:
 ```env
 GEMINI_API_KEY=your_gemini_api_key_here
+VITE_GOOGLE_CLIENT_ID=your_google_client_id.googleusercontent.com
 ```
 
-### 5. Database Setup
+### 5. Google OAuth Setup (Optional)
+To enable Google authentication:
+
+1. Go to the [Google Cloud Console](https://console.cloud.google.com/)
+2. Create a new project or select an existing one
+3. Enable the Google+ API
+4. Go to "Credentials" and create an OAuth 2.0 Client ID
+5. Add your domain to authorized origins:
+   - For development: `http://localhost:5173`
+   - For production: `https://your-domain.com`
+6. Copy the Client ID and add it to your `.env.local` file
+
+### 6. Database Setup
 
 #### Option A: Automatic Setup
 Run the database initialization script:
@@ -48,12 +61,12 @@ const sql = neon('postgresql://neondb_owner:npg_q3RDgixPA1Tm@ep-jolly-dust-ahnmv
 
 2. The database tables will be created automatically when the app starts.
 
-### 6. Start Development Server
+### 7. Start Development Server
 ```bash
 npm run dev
 ```
 
-### 7. Build for Production
+### 8. Build for Production
 ```bash
 npm run build
 npm run preview
