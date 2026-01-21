@@ -1,11 +1,19 @@
 
 import React, { useState, useEffect } from 'react';
-import { Menu, X, Phone, MessageSquare } from 'lucide-react';
+import { Menu, X, Phone, MessageSquare, User, LogOut, Settings } from 'lucide-react';
 import { COMPANY_DETAILS } from '../constants';
+import { useAuth } from '../contexts/AuthContext';
+import AuthModal from './AuthModal';
+import UserDashboard from './UserDashboard';
 
 const Navbar: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
+  const [showAuthModal, setShowAuthModal] = useState(false);
+  const [showUserDashboard, setShowUserDashboard] = useState(false);
+  const [showUserMenu, setShowUserMenu] = useState(false);
+  
+  const { user, isAuthenticated, logout } = useAuth();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -21,6 +29,11 @@ const Navbar: React.FC = () => {
       element.scrollIntoView({ behavior: 'smooth' });
       setIsOpen(false);
     }
+  };
+
+  const handleLogout = () => {
+    logout();
+    setShowUserMenu(false);
   };
 
   return (
@@ -89,6 +102,68 @@ const Navbar: React.FC = () => {
               isScrolled ? 'bg-slate-300/50' : 'bg-white/30'
             }`}></div>
             
+            {/* Authentication Section */}
+            {isAuthenticated && user ? (
+              <div className="relative">
+                <button
+                  onClick={() => setShowUserMenu(!showUserMenu)}
+                  className={`flex items-center space-x-3 px-4 py-2 rounded-2xl transition-all duration-300 ${
+                    isScrolled 
+                      ? 'text-slate-700 hover:bg-slate-100' 
+                      : 'text-white hover:bg-white/20'
+                  }`}
+                >
+                  <div className="w-8 h-8 bg-gradient-to-br from-blue-600 to-indigo-600 rounded-full flex items-center justify-center">
+                    <User size={16} className="text-white" />
+                  </div>
+                  <span className="font-semibold">{user.firstName}</span>
+                </button>
+
+                {/* User Dropdown Menu */}
+                {showUserMenu && (
+                  <div className="absolute right-0 top-full mt-2 w-64 bg-white rounded-2xl shadow-2xl border border-slate-200 py-2 z-50">
+                    <div className="px-4 py-3 border-b border-slate-100">
+                      <p className="font-semibold text-slate-900">{user.firstName} {user.lastName}</p>
+                      <p className="text-sm text-slate-600">{user.email}</p>
+                      <div className="flex items-center space-x-2 mt-2">
+                        <span className="bg-blue-100 text-blue-800 px-2 py-1 rounded-full text-xs font-semibold">
+                          {user.membershipTier}
+                        </span>
+                        <span className="text-xs text-slate-500">{user.loyaltyPoints} points</span>
+                      </div>
+                    </div>
+                    
+                    <button
+                      onClick={() => {
+                        setShowUserDashboard(true);
+                        setShowUserMenu(false);
+                      }}
+                      className="w-full flex items-center space-x-3 px-4 py-3 text-left hover:bg-slate-50 transition-colors"
+                    >
+                      <Settings size={18} className="text-slate-600" />
+                      <span className="text-slate-700">Dashboard</span>
+                    </button>
+                    
+                    <button
+                      onClick={handleLogout}
+                      className="w-full flex items-center space-x-3 px-4 py-3 text-left hover:bg-red-50 transition-colors text-red-600"
+                    >
+                      <LogOut size={18} />
+                      <span>Sign Out</span>
+                    </button>
+                  </div>
+                )}
+              </div>
+            ) : (
+              <button
+                onClick={() => setShowAuthModal(true)}
+                className="bg-gradient-to-r from-blue-600 to-indigo-600 text-white px-6 py-3 rounded-2xl font-semibold hover:from-blue-700 hover:to-indigo-700 transition-all duration-300 shadow-lg hover:shadow-blue-500/25 active:scale-95 flex items-center space-x-2"
+              >
+                <User size={18} />
+                <span>Sign In</span>
+              </button>
+            )}
+            
             <a 
               href={`https://wa.me/${COMPANY_DETAILS.whatsapp}`}
               target="_blank"
@@ -139,9 +214,45 @@ const Navbar: React.FC = () => {
             </button>
             
             <div className="pt-4 border-t border-slate-200">
+              {isAuthenticated && user ? (
+                <>
+                  <button
+                    onClick={() => {
+                      setShowUserDashboard(true);
+                      setIsOpen(false);
+                    }}
+                    className="flex items-center space-x-3 text-blue-600 py-3 px-4 rounded-2xl hover:bg-blue-50 transition-all duration-300 w-full"
+                  >
+                    <User size={20} />
+                    <span className="font-semibold">My Account</span>
+                  </button>
+                  <button
+                    onClick={() => {
+                      handleLogout();
+                      setIsOpen(false);
+                    }}
+                    className="flex items-center space-x-3 text-red-600 py-3 px-4 rounded-2xl hover:bg-red-50 transition-all duration-300 mt-2 w-full"
+                  >
+                    <LogOut size={20} />
+                    <span className="font-semibold">Sign Out</span>
+                  </button>
+                </>
+              ) : (
+                <button
+                  onClick={() => {
+                    setShowAuthModal(true);
+                    setIsOpen(false);
+                  }}
+                  className="flex items-center space-x-3 text-blue-600 py-3 px-4 rounded-2xl hover:bg-blue-50 transition-all duration-300 w-full"
+                >
+                  <User size={20} />
+                  <span className="font-semibold">Sign In</span>
+                </button>
+              )}
+              
               <a 
                 href={`tel:${COMPANY_DETAILS.phone}`} 
-                className="flex items-center space-x-3 text-blue-600 py-3 px-4 rounded-2xl hover:bg-blue-50 transition-all duration-300"
+                className="flex items-center space-x-3 text-blue-600 py-3 px-4 rounded-2xl hover:bg-blue-50 transition-all duration-300 mt-2"
               >
                 <Phone size={20} />
                 <span className="font-semibold">Call Us Now</span>
@@ -159,6 +270,18 @@ const Navbar: React.FC = () => {
           </div>
         </div>
       )}
+      
+      {/* Auth Modal */}
+      <AuthModal 
+        isOpen={showAuthModal} 
+        onClose={() => setShowAuthModal(false)} 
+      />
+      
+      {/* User Dashboard */}
+      <UserDashboard 
+        isOpen={showUserDashboard} 
+        onClose={() => setShowUserDashboard(false)} 
+      />
     </nav>
   );
 };
